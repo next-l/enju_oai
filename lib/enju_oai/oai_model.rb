@@ -23,4 +23,3 @@ module EnjuOai
 end
 
 ActiveRecord::Base.send :include, EnjuOai::ActsAsMethods
-
