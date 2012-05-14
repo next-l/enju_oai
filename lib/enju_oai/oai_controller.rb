@@ -5,6 +5,38 @@ module EnjuOai
     end
   
     module InstanceMethods
+      def render_oai(oai, params)
+        if params[:format] == 'oai'
+          oai_search = true
+          from_and_until_times = set_from_and_until(Manifestation, params[:from], params[:until])
+          from_time = @from_time = from_and_until_times[:from]
+          until_time = @until_time = from_and_until_times[:until]
+          # OAI-PMHのデフォルトの件数
+          per_page = 200
+          if params[:resumptionToken]
+            current_token = get_resumption_token(params[:resumptionToken])
+            if current_token
+              page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+            else
+              @oai[:errors] << 'badResumptionToken'
+            end
+          end
+          page ||= 1
+
+          if params[:verb] == 'GetRecord' and params[:identifier]
+            begin
+              @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
+            rescue ActiveRecord::RecordNotFound
+              @oai[:errors] << "idDoesNotExist"
+              render :formats => :oai, :layout => false
+              return
+            end
+            render :template => 'manifestations/show', :formats => :oai, :layout => false
+            return
+          end
+        end
+      end
+
       private
       def check_oai_params(params)
         oai = {}
