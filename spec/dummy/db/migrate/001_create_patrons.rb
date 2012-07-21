@@ -27,7 +27,6 @@ class CreatePatrons < ActiveRecord::Migration
       t.string :fax_number_2
       t.text :other_designation
       t.text :place
-      t.string :postal_code
       t.text :street
       t.text :locality
       t.text :region

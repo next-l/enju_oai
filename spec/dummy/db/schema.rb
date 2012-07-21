@@ -198,8 +198,6 @@ ActiveRecord::Schema.define(:version => 20120602141129) do
   add_index "languages", ["name"], :name => "index_languages_on_name", :unique => true
 
   create_table "libraries", :force => true do |t|
-    t.integer  "patron_id"
-    t.string   "patron_type"
     t.string   "name",                                   :null => false
     t.text     "display_name"
     t.string   "short_display_name",                     :null => false
@@ -227,25 +225,23 @@ ActiveRecord::Schema.define(:version => 20120602141129) do
 
   add_index "libraries", ["library_group_id"], :name => "index_libraries_on_library_group_id"
   add_index "libraries", ["name"], :name => "index_libraries_on_name", :unique => true
-  add_index "libraries", ["patron_id"], :name => "index_libraries_on_patron_id", :unique => true
 
   create_table "library_groups", :force => true do |t|
-    t.string   "name",                                                        :null => false
+    t.string   "name",                                                 :null => false
     t.text     "display_name"
-    t.string   "short_name",                                                  :null => false
+    t.string   "short_name",                                           :null => false
     t.string   "email"
     t.text     "my_networks"
-    t.boolean  "use_dsbl",              :default => false,                    :null => false
+    t.boolean  "use_dsbl",       :default => false,                    :null => false
     t.text     "dsbl_list"
     t.text     "login_banner"
     t.text     "note"
-    t.boolean  "post_to_union_catalog", :default => false,                    :null => false
     t.integer  "country_id"
-    t.datetime "created_at",                                                  :null => false
-    t.datetime "updated_at",                                                  :null => false
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
     t.text     "admin_networks"
     t.integer  "position"
-    t.string   "url",                   :default => "http://localhost:3000/"
+    t.string   "url",            :default => "http://localhost:3000/"
   end
 
   add_index "library_groups", ["short_name"], :name => "index_library_groups_on_short_name"
