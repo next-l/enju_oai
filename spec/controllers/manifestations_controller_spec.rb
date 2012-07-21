@@ -8,6 +8,10 @@ describe ManifestationsController do
   end
 
   describe "GET index", :solr => true do
+    before do
+      Manifestation.reindex
+    end
+
     describe "When not logged in" do
       it "assigns all manifestations as @manifestations in oai format without verb" do
         get :index, :format => 'oai'

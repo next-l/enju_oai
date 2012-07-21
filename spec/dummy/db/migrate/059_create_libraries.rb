@@ -1,11 +1,10 @@
 class CreateLibraries < ActiveRecord::Migration
   def change
     create_table :libraries do |t|
-      t.references :patron, :polymorphic => true
       t.string :name, :null => false
       t.text :display_name
       t.string :short_display_name, :null => false
-      t.string :postal_code
+      t.string :zip_code
       t.text :street
       t.text :locality
       t.text :region
@@ -23,7 +22,6 @@ class CreateLibraries < ActiveRecord::Migration
       t.timestamps
       t.datetime :deleted_at
     end
-    add_index :libraries, :patron_id, :unique => true
     add_index :libraries, :library_group_id
     add_index :libraries, :name, :unique => true
   end

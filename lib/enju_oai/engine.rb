@@ -1,11 +1,4 @@
-require 'devise'
-require 'cancan'
-require 'sunspot_rails'
-require 'acts_as_list'
-require 'attribute_normalizer'
-require 'friendly_id'
-require 'configatron'
-require 'will_paginate'
+require 'enju_core'
 require 'mobile-fu'
 
 module EnjuOai
