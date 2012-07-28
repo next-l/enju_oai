@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2"
-  s.add_dependency "enju_core", "~> 0.1.0.pre"
+  s.add_dependency "enju_core", "~> 0.1.0"
   s.add_dependency "mobile-fu"
   # s.add_dependency "jquery-rails"
 
