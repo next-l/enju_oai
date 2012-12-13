@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120728204337) do
+ActiveRecord::Schema.define(:version => 20121116033446) do
 
   create_table "bookstores", :force => true do |t|
     t.text     "name",             :null => false
@@ -340,12 +340,14 @@ ActiveRecord::Schema.define(:version => 20120728204337) do
     t.string   "attachment_fingerprint"
     t.text     "attachment_meta"
     t.integer  "month_of_publication"
+    t.string   "doi"
   end
 
   add_index "manifestations", ["access_address"], :name => "index_manifestations_on_access_address"
   add_index "manifestations", ["carrier_type_id"], :name => "index_manifestations_on_carrier_type_id"
   add_index "manifestations", ["created_at"], :name => "index_manifestations_on_created_at"
   add_index "manifestations", ["deleted_at"], :name => "index_manifestations_on_deleted_at"
+  add_index "manifestations", ["doi"], :name => "index_manifestations_on_doi"
   add_index "manifestations", ["frequency_id"], :name => "index_manifestations_on_frequency_id"
   add_index "manifestations", ["isbn"], :name => "index_manifestations_on_isbn"
   add_index "manifestations", ["issn"], :name => "index_manifestations_on_issn"
