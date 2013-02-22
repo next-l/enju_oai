@@ -11,9 +11,8 @@ class ApplicationController < ActionController::Base
 
   enju_biblio
   enju_library
-  before_filter :get_library_group, :set_locale, :set_available_languages, :set_mobile_request
-  has_mobile_fu
-  before_filter :set_request_format
+  before_filter :get_library_group, :set_locale, :set_available_languages,
+    :set_mobile_request
 
   private
   def after_sign_in_path_for(resource)
@@ -239,21 +238,16 @@ class ApplicationController < ActionController::Base
 
   def set_mobile_request
     if params[:mobile_view]
-      if params[:mobile_view] == 'false'
-        session[:mobile_view] = false
-      else
-        session[:mobile_view] = true
+      case params[:mobile_view]
+      when 'true'
+        session[:mobylette_override] = :force_mobile
+        request.format = :mobile
+      when 'false'
+        session[:mobylette_override] = :ignore_mobile
+        request.format = :html
       end
     else
-      if is_mobile_device?
-        session[:mobile_view] = true
-      end
-    end
-  end
-
-  def set_request_format
-    if session[:mobile_view]
-      request.format = :mobile if is_mobile_device?
+      session[:mobylette_override] = nil
     end
   end
 
