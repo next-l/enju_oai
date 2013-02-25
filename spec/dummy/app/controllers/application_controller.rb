@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  require_dependency 'language'
+  include Mobylette::RespondToMobileRequests
 
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
