@@ -9,7 +9,9 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
       xml.header do
         xml.identifier @manifestation.oai_identifier
         xml.datestamp @manifestation.updated_at.utc.iso8601
-        xml.setSpec @manifestation.series_statement.id if @manifestation.series_statement
+        @manifestation.series_statements.each do |series_statement|
+          xml.setSpec series_statement.id
+        end
       end
       xml.metadata do
         xml.tag! "oai_dc:dc",
