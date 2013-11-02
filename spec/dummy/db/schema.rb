@@ -314,6 +314,7 @@ ActiveRecord::Schema.define(version: 20130509185724) do
   add_index "import_requests", ["user_id"], name: "index_import_requests_on_user_id"
 
   create_table "items", force: true do |t|
+    t.integer  "manifestation_id"
     t.string   "call_number"
     t.string   "item_identifier"
     t.datetime "created_at"
@@ -335,6 +336,7 @@ ActiveRecord::Schema.define(version: 20130509185724) do
 
   add_index "items", ["bookstore_id"], name: "index_items_on_bookstore_id"
   add_index "items", ["item_identifier"], name: "index_items_on_item_identifier"
+  add_index "items", ["manifestation_id"], name: "index_items_on_manifestation_id"
   add_index "items", ["required_role_id"], name: "index_items_on_required_role_id"
   add_index "items", ["shelf_id"], name: "index_items_on_shelf_id"
 
