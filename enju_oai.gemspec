@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "enju_oai"
   s.version     = EnjuOai::VERSION
   s.authors     = ["Kosuke Tanabe"]
-  s.email       = ["tanabe@mwr.mediacom.keio.ac.jp"]
+  s.email       = ["kosuke@e23.jp"]
   s.homepage    = "https://github.com/next-l/enju_oai"
   s.summary     = "enju_oai plugin"
   s.description = "provide OAI-PMH methods for Next-L Enju"
