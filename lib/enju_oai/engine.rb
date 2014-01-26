@@ -1,4 +1,4 @@
-require 'enju_core'
+require 'enju_seed'
 
 module EnjuOai
   class Engine < ::Rails::Engine
