@@ -20,7 +20,7 @@ carrier_type_00001:
   created_at: 2007-11-20 15:47:03.641530 +09:00
   position: 1
 carrier_type_00002: 
-  name: CD
+  name: cd
   display_name: CD
   updated_at: 2007-12-19 01:45:26.040674 +09:00
   id: 2
@@ -28,7 +28,7 @@ carrier_type_00002:
   created_at: 2007-12-19 01:45:26.040674 +09:00
   position: 2
 carrier_type_00003: 
-  name: DVD
+  name: dvd
   display_name: DVD
   updated_at: 2007-12-23 04:24:23.151410 +09:00
   id: 3
@@ -40,12 +40,12 @@ carrier_type_00003:
 #
 # Table name: carrier_types
 #
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
 #  display_name :text
 #  note         :text
 #  position     :integer
-#  created_at   :datetime
-#  updated_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 

@@ -35,7 +35,7 @@ picture_file_00004:
   picture_file_size: 7028
   id: 4
   picture_file_name: overlay_spinner_geometry.gif
-  picture_attachable_type: Patron
+  picture_attachable_type: Agent
   picture_attachable_id: 1
   created_at: 2007-12-22 15:06:30.464930 +09:00
   position: 4
@@ -44,15 +44,15 @@ picture_file_00004:
 #
 # Table name: picture_files
 #
-#  id                      :integer         not null, primary key
+#  id                      :integer          not null, primary key
 #  picture_attachable_id   :integer
 #  picture_attachable_type :string(255)
 #  content_type            :string(255)
 #  title                   :text
 #  thumbnail               :string(255)
 #  position                :integer
-#  created_at              :datetime        not null
-#  updated_at              :datetime        not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #  picture_file_name       :string(255)
 #  picture_content_type    :string(255)
 #  picture_file_size       :integer
