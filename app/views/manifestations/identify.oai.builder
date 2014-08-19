@@ -8,7 +8,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
     xml.repositoryName LibraryGroup.site_config.name
     xml.baseURL manifestations_url(format: :oai)
     xml.protocolVersion "2.0"
-    xml.adminEmail LibraryGroup.site_config.email
+    xml.adminEmail LibraryGroup.site_config.user.email
     xml.earliestDatestamp Manifestation.last.created_at.utc.iso8601 if Manifestation.last
     xml.deletedRecord "no"
     xml.granularity "YYYY-MM-DDThh:mm:ssZ"
