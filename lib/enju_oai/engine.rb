@@ -1,4 +1,4 @@
-require 'enju_seed'
+require 'enju_biblio'
 
 module EnjuOai
   class Engine < ::Rails::Engine
