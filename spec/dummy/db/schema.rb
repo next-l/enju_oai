@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140814070854) do
+ActiveRecord::Schema.define(:version => 20140823095740) do
 
   create_table "accepts", :force => true do |t|
     t.integer  "basket_id"
@@ -477,15 +477,6 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
   add_index "exemplifies", ["item_id"], :name => "index_exemplifies_on_item_id", :unique => true
   add_index "exemplifies", ["manifestation_id"], :name => "index_exemplifies_on_manifestation_id"
 
-  create_table "extents", :force => true do |t|
-    t.string   "name",         :null => false
-    t.text     "display_name"
-    t.text     "note"
-    t.integer  "position"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
   create_table "form_of_works", :force => true do |t|
     t.string   "name",         :null => false
     t.text     "display_name"
@@ -577,12 +568,12 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
     t.datetime "acquired_at"
     t.integer  "bookstore_id"
     t.integer  "budget_type_id"
+    t.integer  "circulation_status_id",   :default => 5,     :null => false
+    t.integer  "checkout_type_id",        :default => 1,     :null => false
     t.string   "binding_item_identifier"
     t.string   "binding_call_number"
     t.datetime "binded_at"
     t.integer  "manifestation_id"
-    t.integer  "circulation_status_id",   :default => 5,     :null => false
-    t.integer  "checkout_type_id",        :default => 1,     :null => false
   end
 
   add_index "items", ["binding_item_identifier"], :name => "index_items_on_binding_item_identifier"
@@ -808,9 +799,11 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
     t.integer  "month_of_publication"
     t.boolean  "fulltext_content"
     t.string   "doi"
-    t.boolean  "periodical"
+    t.boolean  "serial"
     t.text     "statement_of_responsibility"
     t.text     "publication_place"
+    t.text     "extent"
+    t.text     "dimensions"
   end
 
   add_index "manifestations", ["access_address"], :name => "index_manifestations_on_access_address"
@@ -902,9 +895,9 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
     t.integer  "required_role_id"
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
-    t.datetime "expired_at"
     t.string   "checkout_icalendar_token"
     t.boolean  "save_checkout_history",    :default => false, :null => false
+    t.datetime "expired_at"
   end
 
   add_index "profiles", ["checkout_icalendar_token"], :name => "index_profiles_on_checkout_icalendar_token", :unique => true
@@ -1072,6 +1065,7 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
     t.text     "body"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
+    t.text     "error_message"
   end
 
   add_index "resource_import_results", ["item_id"], :name => "index_resource_import_results_on_item_id"
@@ -1405,6 +1399,8 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
+    t.boolean  "save_checkout_history",    :default => false, :null => false
+    t.string   "checkout_icalendar_token"
     t.string   "username"
     t.datetime "deleted_at"
     t.datetime "expired_at"
@@ -1412,8 +1408,6 @@ ActiveRecord::Schema.define(:version => 20140814070854) do
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.datetime "confirmed_at"
-    t.boolean  "save_checkout_history",    :default => false, :null => false
-    t.string   "checkout_icalendar_token"
   end
 
   add_index "users", ["checkout_icalendar_token"], :name => "index_users_on_checkout_icalendar_token", :unique => true
