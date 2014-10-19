@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140823095740) do
+ActiveRecord::Schema.define(version: 20141014065831) do
 
   create_table "accepts", force: true do |t|
     t.integer  "basket_id"
@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 20140823095740) do
   create_table "agent_import_results", force: true do |t|
     t.integer  "agent_import_file_id"
     t.integer  "agent_id"
-    t.integer  "user_id"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -290,6 +289,7 @@ ActiveRecord::Schema.define(version: 20140823095740) do
     t.integer  "lock_version",           default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "shelf_id"
   end
 
   add_index "checkouts", ["basket_id"], name: "index_checkouts_on_basket_id"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20140823095740) do
   add_index "checkouts", ["item_id", "basket_id"], name: "index_checkouts_on_item_id_and_basket_id", unique: true
   add_index "checkouts", ["item_id"], name: "index_checkouts_on_item_id"
   add_index "checkouts", ["librarian_id"], name: "index_checkouts_on_librarian_id"
+  add_index "checkouts", ["shelf_id"], name: "index_checkouts_on_shelf_id"
   add_index "checkouts", ["user_id"], name: "index_checkouts_on_user_id"
 
   create_table "circulation_statuses", force: true do |t|
@@ -333,6 +334,17 @@ ActiveRecord::Schema.define(version: 20140823095740) do
   add_index "classifications", ["classification_type_id"], name: "index_classifications_on_classification_type_id"
   add_index "classifications", ["manifestation_id"], name: "index_classifications_on_manifestation_id"
   add_index "classifications", ["parent_id"], name: "index_classifications_on_parent_id"
+
+  create_table "colors", force: true do |t|
+    t.integer  "library_group_id"
+    t.string   "property"
+    t.string   "code"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "colors", ["library_group_id"], name: "index_colors_on_library_group_id"
 
   create_table "content_types", force: true do |t|
     t.string   "name",         null: false
@@ -773,7 +785,6 @@ ActiveRecord::Schema.define(version: 20140823095740) do
     t.string   "access_address"
     t.integer  "language_id",                     default: 1,     null: false
     t.integer  "carrier_type_id",                 default: 1,     null: false
-    t.integer  "extent_id",                       default: 1,     null: false
     t.integer  "start_page"
     t.integer  "end_page"
     t.integer  "height"
@@ -814,7 +825,6 @@ ActiveRecord::Schema.define(version: 20140823095740) do
     t.text     "attachment_meta"
     t.integer  "month_of_publication"
     t.boolean  "fulltext_content"
-    t.string   "doi"
     t.boolean  "serial"
     t.text     "statement_of_responsibility"
     t.text     "publication_place"
@@ -824,7 +834,6 @@ ActiveRecord::Schema.define(version: 20140823095740) do
 
   add_index "manifestations", ["access_address"], name: "index_manifestations_on_access_address"
   add_index "manifestations", ["date_of_publication"], name: "index_manifestations_on_date_of_publication"
-  add_index "manifestations", ["doi"], name: "index_manifestations_on_doi"
   add_index "manifestations", ["manifestation_identifier"], name: "index_manifestations_on_manifestation_identifier"
   add_index "manifestations", ["updated_at"], name: "index_manifestations_on_updated_at"
 
@@ -914,6 +923,8 @@ ActiveRecord::Schema.define(version: 20140823095740) do
     t.string   "checkout_icalendar_token"
     t.boolean  "save_checkout_history",    default: false, null: false
     t.datetime "expired_at"
+    t.text     "full_name_transcription"
+    t.datetime "date_of_birth"
   end
 
   add_index "profiles", ["checkout_icalendar_token"], name: "index_profiles_on_checkout_icalendar_token", unique: true
