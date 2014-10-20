@@ -17,3 +17,7 @@ env:
   - DB=sqlite
   - DB=mysql
   - DB=postgresql
+notifications:
+  hipchat:
+    rooms:
+      secure: WX9HPTr7Zn/dIeL1SFDR6wWTsQBQAlA8oBcIRMUadTRuYTsiY9zdaiOXDYyf66ARel9xLKhsCC438URCGeq2zb3IgrATiGa6vDqx7LoPpeoh/aKGwM10I8ADORLN5FFMuV6Tu7m7iIixfRG5hEW8Mpg36+jZORQPgCgIxrbL/HQ=
