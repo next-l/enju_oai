@@ -1,29 +1,27 @@
-# http://matthew.mceachen.us/blog/how-to-test-your-rails-application-with-travis-ci-on-different-databases-engines-1220.html
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.3
+- 1.9.3
+- 2.0.0
+- 2.1.3
 before_script:
-  - mysql -e 'create database enju_test'
-  - psql -c 'create database enju_test;' -U postgres
-  - "bundle exec rake db:migrate"
+- mysql -e 'create database enju_test'
+- psql -c 'create database enju_test;' -U postgres
+- bundle exec rake db:migrate
 services:
-  - redis-server
+- redis-server
 gemfile:
-  - gemfiles/rails3_2.gemfile
-  - gemfiles/rails4_1.gemfile
+- gemfiles/rails3_2.gemfile
+- gemfiles/rails4_1.gemfile
 env:
-  - DB=sqlite
-  - DB=mysql
-  - DB=postgresql
+- DB=sqlite
+- DB=mysql
+- DB=postgresql
 matrix:
   exclude:
-    - rvm: 1.9.3
-      gemfile: gemfiles/rails4_1.gemfile
-    - rvm: 2.1.3
-      gemfile: gemfiles/rails3_2.gemfile
+  - rvm: 1.9.3
+    gemfile: gemfiles/rails4_1.gemfile
+  - rvm: 2.1.3
+    gemfile: gemfiles/rails3_2.gemfile
 notifications:
-  hipchat:
-    rooms:
-      secure: IsZV1YtRu0pdUmjtpPp9aGH8eUdwd8O2+2n7ECmh0DdGv9iGCIwk1nI2pRId25juGNUnHvN5V1hxYIrqhlMOqawlp/PrafHqgvd/6+c/0OupiQB32EG9aNFiuveoRnaRVUdvmoJpUAHefJMhaowRqKFC/XrCErDq5+qzgJlcVQE=
+  slack:
+    secure: FA7F9uAjzRWSLA8Pt0bdLuIF0RRNyj7exiDwbQbI5sCqRe/sbggKVDmZ/n/ndArEmA4Ca2WUveHnuucmBSmkgtU3eOU+cRK113YibtX9RW+QlGkuE05qDWROAAyCMotmp1fYSYyXQCAF4ZGC5Vhatf2BAJ7XK8fHbMuin/BLwMA=
