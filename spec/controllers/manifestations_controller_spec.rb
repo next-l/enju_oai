@@ -9,8 +9,7 @@ describe ManifestationsController do
 
   describe "GET index", :solr => true do
     before do
-      Manifestation.__elasticsearch__.create_index!
-      Manifestation.import
+      Manifestation.reindex
     end
 
     describe "When not logged in" do
