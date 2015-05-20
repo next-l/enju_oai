@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305030046) do
+ActiveRecord::Schema.define(version: 20150425073705) do
 
   create_table "accepts", force: :cascade do |t|
     t.integer  "basket_id"
@@ -424,6 +424,10 @@ ActiveRecord::Schema.define(version: 20150305030046) do
 
   create_table "event_export_files", force: :cascade do |t|
     t.integer  "user_id"
+    t.string   "event_export_file_name"
+    t.string   "event_export_content_type"
+    t.integer  "event_export_file_size"
+    t.datetime "event_export_updated_at"
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -453,7 +457,7 @@ ActiveRecord::Schema.define(version: 20150305030046) do
     t.integer  "user_id"
     t.text     "note"
     t.datetime "executed_at"
-    t.string   "event_import_filename"
+    t.string   "event_import_file_name"
     t.string   "event_import_content_type"
     t.integer  "event_import_file_size"
     t.datetime "event_import_updated_at"
@@ -1043,6 +1047,10 @@ ActiveRecord::Schema.define(version: 20150305030046) do
 
   create_table "resource_export_files", force: :cascade do |t|
     t.integer  "user_id"
+    t.string   "resource_export_file_name"
+    t.string   "resource_export_content_type"
+    t.integer  "resource_export_file_size"
+    t.datetime "resource_export_updated_at"
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1299,6 +1307,10 @@ ActiveRecord::Schema.define(version: 20150305030046) do
 
   create_table "user_export_files", force: :cascade do |t|
     t.integer  "user_id"
+    t.string   "user_export_file_name"
+    t.string   "user_export_content_type"
+    t.integer  "user_export_file_size"
+    t.datetime "user_export_updated_at"
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1370,7 +1382,7 @@ ActiveRecord::Schema.define(version: 20150305030046) do
     t.integer  "user_id"
     t.text     "note"
     t.datetime "executed_at"
-    t.string   "user_import_filename"
+    t.string   "user_import_file_name"
     t.string   "user_import_content_type"
     t.string   "user_import_file_size"
     t.datetime "user_import_updated_at"
