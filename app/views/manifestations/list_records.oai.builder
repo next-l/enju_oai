@@ -43,6 +43,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
                 xml.tag! "dc:subject", subject.term
               end
               xml.tag! "dc:description", manifestation.description
+              xml.tag! "dc:date", manifestation.pub_date
             end
           end
         end
