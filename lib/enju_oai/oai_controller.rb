@@ -55,6 +55,7 @@ module EnjuOai
               oai[:errors] << "cannotDisseminateFormat"
             end
           when 'ListRecords'
+            oai[:metadataPrefix] = params[:metadataPrefix]
             unless valid_metadata_format?(params[:metadataPrefix])
               oai[:errors] << "cannotDisseminateFormat"
             end
@@ -63,6 +64,7 @@ module EnjuOai
               oai[:need_not_to_search] = true
               oai[:errors] << "badArgument"
             end
+            oai[:metadataPrefix] = params[:metadataPrefix]
             unless valid_metadata_format?(params[:metadataPrefix])
               oai[:errors] << "cannotDisseminateFormat"
             end
@@ -75,7 +77,7 @@ module EnjuOai
   
       def valid_metadata_format?(format)
         if format.present?
-          if ['oai_dc'].include?(format)
+          if ['oai_dc', 'junii2'].include?(format)
             true
           else
             false

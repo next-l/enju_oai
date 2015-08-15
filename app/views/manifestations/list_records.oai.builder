@@ -25,7 +25,12 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
             xml.datestamp manifestation.updated_at.utc.iso8601
           end
           xml.metadata do
-            render 'list_records_oai_dc', manifestation: manifestation, xml_builder: xml
+            case @oai[:metadataPrefix]
+            when 'oai_dc', nil
+              render 'list_records_oai_dc', manifestation: manifestation, xml_builder: xml
+            when 'junii2'
+              render 'list_records_junii2', manifestation: manifestation, xml_builder: xml
+            end
           end
         end
       end

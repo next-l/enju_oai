@@ -23,7 +23,7 @@ describe "manifestations/list_records.oai.builder" do
 
   describe "when metadataPrefix is oai_dc" do
     before(:each) do
-      assign(:metadata_prefix, 'oai_dc')
+      assign(:oai, { :errors => [], :metadataPrefix => 'oai_dc' } )
     end
     it "renders the XML template" do
       render
@@ -33,7 +33,7 @@ describe "manifestations/list_records.oai.builder" do
 
   describe "when metadataPrefix is junii2" do
     before(:each) do
-      assign(:metadata_prefix, 'junii2')
+      assign(:oai, { :errors => [], :metadataPrefix => 'junii2' } )
     end
     it "renders the XML template" do
       render
