@@ -1,9 +1,11 @@
-xml_builder.tag! "junii2",
+xml_builder.junii2 version: '3.1',
   "xsi:schemaLocation": "http://irdb.nii.ac.jp/oai http://irdb.nii.ac.jp/oai/junii2-3-1.xsd",
   "xmlns": "http://irdb.nii.ac.jp/oai",
   "xmlns:dc": "http://purl.org/dc/elements/1.1/" do
   xml_builder.title manifestation.original_title
-  xml_builder.alternative manifestation.title_alternative
+  unless manifestation.title_alternative.blank?
+    xml_builder.alternative manifestation.title_alternative
+  end
   manifestation.creators.readable_by(current_user).each do |patron|
     xml_builder.creator patron.full_name
   end
@@ -26,7 +28,7 @@ xml_builder.tag! "junii2",
   if manifestation.try(:subjects)
     %w[ BSH NDLSH MeSH ].each do |s|
       manifestation.subjects.each do |subject|
-        if s.subject_type.name =~ /#{ subject }/i
+        if subject.subject_type.name =~ /#{ s }/i
           xml_builder.tag! subject, subject.term
         end
       end
@@ -48,20 +50,60 @@ xml_builder.tag! "junii2",
       end
     end
   end
-  xml_builder.description manifestation.description
+  if manifestation.description?
+    xml_builder.description manifestation.description
+  end
   manifestation.publishers.readable_by(current_user).each do |patron|
     xml_builder.publisher patron.full_name
   end
   manifestation.contributors.readable_by(current_user).each do |patron|
     xml_builder.contributor patron.full_name
   end
-  xml_builder.date manifestation.pub_date
+  xml_builder.date manifestation.created_at.to_date.iso8601
   xml_builder.type manifestation.manifestation_content_type.name
   #TODO: xml_builder.NIItype
-  if manifestation.attachment
+  unless manifestation.attachment.blank?
     xml_builder.format manifestation.attachment_content_type
   end
-  manifestation.identifier_contents(:isbn).each do |isbn|
-    xml_builder.ISBN isbn
+  if manifestation.manifestation_identifier?
+    xml_builder.identifier manifestation.manifestation_identifier
   end
+  manifestation.identifiers.each do |identifier|
+    unless identifier.identifier_type.name =~ /isbn|issn|ncid|doi|naid|pmid|ichushi/io
+      xml_builder.identifier identifier.body
+    end
+  end
+  xml_builder.URI manifestation_url( manifestation )
+  unless manifestation.attachment.blank?
+    xml_builder.fulltextURL manifestation_url(id: manifestation.id, format: :download)
+  end
+  %w[ ISBN ISSN NCID ].each do |identifier|
+    manifestation.identifier_contents(identifier.downcase).each do |val|
+      xml_builder.tag! identifier, val
+    end
+  end
+  if manifestation.root_series_statement
+    xml_builder.jtitle manifestation.root_series_statement.original_title
+  end
+  xml_builder.volume manifestation.volume_number_string
+  xml_builder.issue manifestation.issue_number_string
+  xml_builder.spage manifestation.start_page
+  xml_builder.epage manifestation.end_page
+  xml_builder.dateofissues manifestation.pub_date
+  #TODO: junii2: source
+  if manifestation.language.blank? or manifestation.language.name == 'unknown'
+    xml_builder.language "und"
+  else
+    xml_builder.language manifestation.language.iso_639_2
+  end
+  %w[ pmid doi NAID ichushi ].each do |identifier|
+    manifestation.identifier_contents(identifier.downcase).each do |val|
+      xml_builder.tag! identifier, val
+    end
+  end
+  #TODO: junii2: isVersionOf, hasVersion, isReplaceBy, replaces, isRequiredBy, requires, isPartOf, hasPart, isReferencedBy, references, isFormatOf, hasFormat
+  #TODO: junii2: coverage, spatial, NIIspatial, temporal, NIItemporal
+  #TODO: junii2: rights
+  #TODO: junii2: textversion
+  #TODO: junii2: grantid, dateofgranted, degreename, grantor
 end
