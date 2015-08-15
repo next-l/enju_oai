@@ -8,12 +8,12 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
     xml.metadataFormat do
       xml.metadataPrefix "oai_dc"
       xml.schema "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
-      xml.metadataNamespace "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
+      xml.metadataNamespace "http://www.openarchives.org/OAI/2.0/oai_dc/"
     end
-    #xml.metadataFormat do
-    #  xml.metadataPrefix "junii2"
-    #  xml.schema "http://ju.nii.ac.jp/oai/junii2.xsd"
-    #  xml.metadataNamespace "http://ju.nii.ac.jp/junii2"
-    #end
+    xml.metadataFormat do
+      xml.metadataPrefix "junii2"
+      xml.schema "http://irdb.nii.ac.jp/oai/junii2-3-1.xsd"
+      xml.metadataNamespace "http://irdb.nii.ac.jp/oai"
+    end
   end
 end
