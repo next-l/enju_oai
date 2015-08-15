@@ -89,7 +89,7 @@ xml_builder.junii2 version: '3.1',
   xml_builder.issue manifestation.issue_number_string
   xml_builder.spage manifestation.start_page
   xml_builder.epage manifestation.end_page
-  xml_builder.dateofissues manifestation.pub_date
+  xml_builder.dateofissued manifestation.pub_date
   #TODO: junii2: source
   if manifestation.language.blank? or manifestation.language.name == 'unknown'
     xml_builder.language "und"
