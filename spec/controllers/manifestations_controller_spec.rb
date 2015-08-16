@@ -50,6 +50,12 @@ describe ManifestationsController do
         assigns(:manifestation).should_not be_nil
         response.should render_template('manifestations/show')
       end
+      it "assigns all manifestations as @manifestations in oai format with GetRecord with identifier for junii2 metadata" do
+        get :index, :format => 'oai', :verb => 'GetRecord', :identifier => 'oai:localhost:manifestations-1', :metadataPrefix => 'junii2'
+        assigns(:manifestations).should be_nil
+        assigns(:manifestation).should_not be_nil
+        response.should render_template('manifestations/show')
+      end
     end
   end
 end
