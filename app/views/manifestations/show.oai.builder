@@ -14,11 +14,11 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
         end
       end
       xml.metadata do
-        xml.tag! "oai_dc:dc",
-          "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
-          "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",
-          "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
-          xml.tag! "dc:title", @manifestation.original_title
+        case @oai[:metadataPrefix]
+        when 'oai_dc', nil
+          render 'record_oai_dc', manifestation: @manifestation, xml_builder: xml
+        when 'junii2'
+          render 'record_junii2', manifestation: @manifestation, xml_builder: xml
         end
       end
     end
