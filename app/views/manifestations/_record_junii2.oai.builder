@@ -61,7 +61,11 @@ xml_builder.junii2 version: '3.1',
   end
   xml_builder.date manifestation.created_at.to_date.iso8601
   xml_builder.type manifestation.manifestation_content_type.name
-  #TODO: xml_builder.NIItype
+  if manifestation.try(:nii_type)
+    xml_builder.NIItype manifestation.nii_type.name
+  else
+    xml_builder.NIItype 'Others'
+  end
   unless manifestation.attachment.blank?
     xml_builder.format manifestation.attachment_content_type
   end

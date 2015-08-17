@@ -831,11 +831,13 @@ ActiveRecord::Schema.define(version: 20150221063719) do
     t.text     "publication_place"
     t.text     "extent"
     t.text     "dimensions"
+    t.integer  "nii_type_id"
   end
 
   add_index "manifestations", ["access_address"], name: "index_manifestations_on_access_address"
   add_index "manifestations", ["date_of_publication"], name: "index_manifestations_on_date_of_publication"
   add_index "manifestations", ["manifestation_identifier"], name: "index_manifestations_on_manifestation_identifier"
+  add_index "manifestations", ["nii_type_id"], name: "index_manifestations_on_nii_type_id"
   add_index "manifestations", ["updated_at"], name: "index_manifestations_on_updated_at"
 
   create_table "medium_of_performances", force: :cascade do |t|
@@ -846,6 +848,17 @@ ActiveRecord::Schema.define(version: 20150221063719) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "nii_types", force: :cascade do |t|
+    t.string   "name",         null: false
+    t.text     "display_name"
+    t.text     "note"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "nii_types", ["name"], name: "index_nii_types_on_name", unique: true
 
   create_table "owns", force: :cascade do |t|
     t.integer  "agent_id",   null: false

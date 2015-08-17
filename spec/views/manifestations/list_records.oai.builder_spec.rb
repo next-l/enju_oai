@@ -39,5 +39,10 @@ describe "manifestations/list_records.oai.builder" do
       render
       expect(rendered).to match /<junii2/
     end
+    it "renders NIItype" do
+      assign(:manifestations, [FactoryGirl.create(:manifestation, nii_type_id: 1)])
+      render
+      expect(rendered).to match /<NIItype>Journal Article<\/NIItype>/
+    end
   end
 end
