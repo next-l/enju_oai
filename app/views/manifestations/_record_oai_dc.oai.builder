@@ -1,7 +1,7 @@
 xml_builder.tag! "oai_dc:dc",
-                 "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
-                 "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",
-                 "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
+  "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",
+  "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml_builder.tag! "dc:title", manifestation.original_title
   manifestation.creators.readable_by(current_user).each do |patron|
     xml_builder.tag! "dc:creator", patron.full_name
