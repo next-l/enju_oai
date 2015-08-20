@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150425073705) do
+ActiveRecord::Schema.define(version: 20150305030046) do
 
   create_table "accepts", force: :cascade do |t|
     t.integer  "basket_id"
@@ -424,10 +424,6 @@ ActiveRecord::Schema.define(version: 20150425073705) do
 
   create_table "event_export_files", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "event_export_file_name"
-    t.string   "event_export_content_type"
-    t.integer  "event_export_file_size"
-    t.datetime "event_export_updated_at"
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -457,7 +453,7 @@ ActiveRecord::Schema.define(version: 20150425073705) do
     t.integer  "user_id"
     t.text     "note"
     t.datetime "executed_at"
-    t.string   "event_import_file_name"
+    t.string   "event_import_filename"
     t.string   "event_import_content_type"
     t.integer  "event_import_file_size"
     t.datetime "event_import_updated_at"
@@ -813,6 +809,7 @@ ActiveRecord::Schema.define(version: 20150425073705) do
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
+    t.integer  "nii_type_id"
     t.text     "title_alternative_transcription"
     t.text     "description"
     t.text     "abstract"
@@ -841,6 +838,7 @@ ActiveRecord::Schema.define(version: 20150425073705) do
   add_index "manifestations", ["access_address"], name: "index_manifestations_on_access_address"
   add_index "manifestations", ["date_of_publication"], name: "index_manifestations_on_date_of_publication"
   add_index "manifestations", ["manifestation_identifier"], name: "index_manifestations_on_manifestation_identifier"
+  add_index "manifestations", ["nii_type_id"], name: "index_manifestations_on_nii_type_id"
   add_index "manifestations", ["updated_at"], name: "index_manifestations_on_updated_at"
 
   create_table "medium_of_performances", force: :cascade do |t|
@@ -851,6 +849,17 @@ ActiveRecord::Schema.define(version: 20150425073705) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "nii_types", force: :cascade do |t|
+    t.string   "name",         null: false
+    t.text     "display_name"
+    t.text     "note"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "nii_types", ["name"], name: "index_nii_types_on_name", unique: true
 
   create_table "owns", force: :cascade do |t|
     t.integer  "agent_id",   null: false
@@ -1047,10 +1056,6 @@ ActiveRecord::Schema.define(version: 20150425073705) do
 
   create_table "resource_export_files", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "resource_export_file_name"
-    t.string   "resource_export_content_type"
-    t.integer  "resource_export_file_size"
-    t.datetime "resource_export_updated_at"
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1307,10 +1312,6 @@ ActiveRecord::Schema.define(version: 20150425073705) do
 
   create_table "user_export_files", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "user_export_file_name"
-    t.string   "user_export_content_type"
-    t.integer  "user_export_file_size"
-    t.datetime "user_export_updated_at"
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1382,7 +1383,7 @@ ActiveRecord::Schema.define(version: 20150425073705) do
     t.integer  "user_id"
     t.text     "note"
     t.datetime "executed_at"
-    t.string   "user_import_file_name"
+    t.string   "user_import_filename"
     t.string   "user_import_content_type"
     t.string   "user_import_file_size"
     t.datetime "user_import_updated_at"
