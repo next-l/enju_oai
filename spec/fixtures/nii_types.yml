@@ -1,98 +1,78 @@
---- 
 nii_type_00001:
   id: 1
-  name: text
-  display_name: "en: text\r\n\
-    ja: 文字"
+  name: Journal Article
+  display_name: Journal Article
   note: 
   position: 1
 nii_type_00002:
   id: 2
-  name: performed_music
-  display_name: "en: Performed music\r\n\
-    ja: 音楽"
-  note: 曲の演奏など
+  name: Thesis or Dissertation
+  display_name: Thesis or Dissertation
+  note: 
   position: 2
 nii_type_00003:
   id: 3
-  name: two_dimensional_moving_image
-  display_name: "en: Two-dimensional moving image\r\n\
-    ja: 動画"
+  name: Departmental Bulletin Paper
+  display_name: Departmental Bulletin Paper
   note: 
   position: 3
 nii_type_00004:
   id: 4
-  name: tactile_text
-  display_name: "en: Tactile text\r\n\
-    ja: 点字など"
-  note: 触ることのできる文字
+  name: Conference Paper
+  display_name: Conference Paper
+  note: 
   position: 4
 nii_type_00005:
   id: 5
-  name: still_image
-  display_name: "en: Still image\r\n\
-    ja: 画像"
-  note: 静止画像
+  name: Presentation
+  display_name: Presentation
+  note: 
   position: 5
 nii_type_00006:
   id: 6
-  name: cartographic_image
-  display_name: "en: Cartographic image\r\n\
-    ja: 地図"
+  name: Book
+  display_name: Book
   note: 
   position: 6
 nii_type_00007:
   id: 7
-  name: spoken_word
-  display_name: "en: Spoken word\r\n\
-    ja: 音声"
-  note: 読み上げ音声など
+  name: Technical Report
+  display_name: Technical Report
+  note: 
   position: 7
 nii_type_00008:
   id: 8
-  name: sounds
-  display_name: "en: Sounds\r\n\
-    ja: 音"
-  note: 波音など
+  name: Research Paper
+  display_name: Research Paper
+  note: 
   position: 8
 nii_type_00009:
   id: 9
-  name: notated_music
-  display_name: "en: Notated music\r\n\
-    ja: 楽譜"
+  name: Article
+  display_name: Article
   note: 
   position: 9
 nii_type_00010:
   id: 10
-  name: three_dimensional_moving_image
-  display_name: "en: Three-dimensional moving image\r\n\
-    ja: 3D動画"
+  name: Preprint
+  display_name: Preprint
   note: 
   position: 10
 nii_type_00011:
   id: 11
-  name: other
-  display_name: "en: Other\r\n\
-    ja: その他"
-  note: LCMARCに由来
+  name: Learning Material
+  display_name: Learning Material
+  note: 
   position: 11
 nii_type_00012:
   id: 12
-  name: unspecified
-  display_name: "en: Unspecified\r\n\
-    ja: 不明"
-  note: LCMARCに由来
+  name: Data or Dataset
+  display_name: Data or Dataset
+  note: 
   position: 12
-
-# == Schema Information
-#
-# Table name: nii_types
-#
-#  id           :integer          not null, primary key
-#  name         :string(255)      not null
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#
+nii_type_00013:
+  id: 13
+  name: Others
+  display_name: Others
+  note: 
+  position: 13
