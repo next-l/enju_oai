@@ -105,12 +105,11 @@ module EnjuOai
         end
       end
       cursor ||= 0
-      ttl = EnjuLeaf::Application.config.cache_store.last[:expires_in].to_i
       resumption = {
         :token => "f(#{from_time.utc.iso8601.to_s}).u(#{until_time.utc.iso8601.to_s}):#{cursor}",
         :cursor => cursor,
         # memcachedの使用が前提
-        :expired_at => ttl.seconds.from_now.utc.iso8601
+        :expired_at => ENV['ENJU_OAI_TTL'].to_i.seconds.from_now.utc.iso8601
       }
       Rails.cache.fetch(resumption[:token]){resumption}
     end
