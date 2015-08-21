@@ -5,38 +5,6 @@ module EnjuOai
     end
   
     module InstanceMethods
-      def render_oai(oai, params)
-        if params[:format] == 'oai'
-          oai_search = true
-          from_and_until_times = set_from_and_until(Manifestation, params[:from], params[:until])
-          from_time = @from_time = from_and_until_times[:from]
-          until_time = @until_time = from_and_until_times[:until]
-          # OAI-PMHのデフォルトの件数
-          per_page = 200
-          if params[:resumptionToken]
-            current_token = get_resumption_token(params[:resumptionToken])
-            if current_token
-              page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
-            else
-              @oai[:errors] << 'badResumptionToken'
-            end
-          end
-          page ||= 1
-
-          if params[:verb] == 'GetRecord' and params[:identifier]
-            begin
-              @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
-            rescue ActiveRecord::RecordNotFound
-              @oai[:errors] << "idDoesNotExist"
-              render :formats => :oai, :layout => false
-              return
-            end
-            render :template => 'manifestations/show', :formats => :oai, :layout => false
-            return
-          end
-        end
-      end
-
       private
       def check_oai_params(params)
         oai = {}
@@ -88,36 +56,22 @@ module EnjuOai
       end
     end
   
-    def get_resumption_token(token)
-      if token.present?
-        resumption = Rails.cache.read(token)
+    def set_resumption_token(token, from_time, until_time, per_page = 200)
+      if token
+        cursor = token.split(',').reverse.first.to_i + per_page
+      else
+        cursor = per_page
       end
-    rescue
-      nil
-    end
-  
-    def set_resumption_token(token, from_time, until_time, per_page = 10)
-      return nil unless Rails.env.to_s == 'production'
-      if token.present?
-        latest_resumption = Rails.cache.read(token)
-        if latest_resumption
-          cursor = latest_resumption[:cursor] + per_page
-        end
-      end
-      cursor ||= 0
-      resumption = {
-        :token => "f(#{from_time.utc.iso8601.to_s}).u(#{until_time.utc.iso8601.to_s}):#{cursor}",
-        :cursor => cursor,
-        # memcachedの使用が前提
-        :expired_at => ENV['ENJU_OAI_TTL'].to_i.seconds.from_now.utc.iso8601
+      {
+        token: "f(#{from_time.utc.iso8601.to_s}),u(#{until_time.utc.iso8601.to_s}),#{cursor}",
+        cursor: cursor
       }
-      Rails.cache.fetch(resumption[:token]){resumption}
     end
   
     def set_from_and_until(klass, from_t, until_t)
       if klass.first and klass.last
-        from_t ||= klass.last.updated_at.to_s
-        until_t ||= klass.first.updated_at.to_s
+        from_t ||= klass.order(:updated_at).first.updated_at.to_s
+        until_t ||= klass.order(:updated_at).last.updated_at.to_s
       else
         from_t ||= Time.zone.now.to_s
         until_t ||= Time.zone.now.to_s
