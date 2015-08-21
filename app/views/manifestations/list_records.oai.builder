@@ -1,8 +1,8 @@
 def request_attr(prefix = 'oai_dc')
   from_time = @from_time.utc.iso8601 if @from_time
   until_time = @until_time.utc.iso8601 if @until_time
-  attribute = {:metadataPrefix => prefix, :verb => 'ListRecords'}
-  attribute.merge(:from => from_time) if from_time
+  attribute = {metadataPrefix: prefix, verb: 'ListRecords'}
+  attribute.merge(from: from_time) if from_time
   attribute.merge(:until => until_time) if until_time
   attribute
 end
@@ -36,9 +36,12 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
       end
     end
     if @resumption.present?
-      if @resumption[:cursor].to_i + @manifestations.per_page < @manifestations.total_entries
-        xml.resumptionToken @resumption[:token], completeListSize: @manifestations.total_entries, cursor: @resumption[:cursor], expirationDate: @resumption[:expired_at]
+      if @resumption[:cursor].to_i + @manifestations.limit_value <= @count[:query_result]
+        token = @resumption[:token]
+      else
+        token = nil
       end
+      xml.resumptionToken token, completeListSize: @count[:query_result], cursor: @cursor.to_i
     end
   end
 end
