@@ -1,5 +1,6 @@
 xml_builder.junii2 :version => '3.1',
   "xsi:schemaLocation" => "http://irdb.nii.ac.jp/oai http://irdb.nii.ac.jp/oai/junii2-3-1.xsd",
+  "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
   "xmlns" => "http://irdb.nii.ac.jp/oai",
   "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml_builder.title manifestation.original_title
