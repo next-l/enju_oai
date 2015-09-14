@@ -907,7 +907,7 @@ ActiveRecord::Schema.define(version: 20150425073705) do
     t.datetime "updated_at"
     t.string   "picture_filename"
     t.string   "picture_content_type"
-    t.integer  "picture_file_size"
+    t.integer  "picture_size"
     t.datetime "picture_updated_at"
     t.text     "picture_meta"
     t.string   "picture_fingerprint"
