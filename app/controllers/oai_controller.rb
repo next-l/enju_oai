@@ -3,21 +3,7 @@ class OaiController < ApplicationController
     @oai = check_oai_params(params)
     @oai[:errors] = []
     if params[:verb] == 'GetRecord'
-      if params[:identifier]
-        begin
-          @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
-        rescue ActiveRecord::RecordNotFound
-          @oai[:errors] << "idDoesNotExist"
-          render formats: :xml, layout: false
-          return
-        end
-        render template: 'oai/get_record', formats: :xml, layout: false
-        return
-      else
-        @oai[:errors] << "idDoesNotExist"
-        render formats: :xml, layout: false
-        return
-      end
+      get_record; return
     else
       from_and_until_times = set_from_and_until(Manifestation, params[:from], params[:until])
       from_time = @from_time = from_and_until_times[:from]
@@ -25,6 +11,12 @@ class OaiController < ApplicationController
 
       # OAI-PMHのデフォルトの件数
       oai_per_page = 200
+      search = Manifestation.search do
+        order_by :updated_at, :desc
+        paginate page: 1, per_page: oai_per_page
+      end
+      @count = {query_result: search.execute!.total}
+
       if params[:resumptionToken]
         token = params[:resumptionToken].split(',')
         if token.size == 3
@@ -40,10 +32,11 @@ class OaiController < ApplicationController
       end
       page ||= 1
 
-      @manifestations = Manifestation.search do
+      search.build do
         order_by :updated_at, :desc
         paginate page: page, per_page: oai_per_page
-      end.results
+      end
+      @manifestations = search.execute!.results
 
       unless @manifestations.empty?
         @resumption = set_resumption_token(
@@ -74,6 +67,23 @@ class OaiController < ApplicationController
           render template: 'oai/provider'
         end
       }
+    end
+  end
+
+  private
+  def get_record
+    if params[:identifier]
+      begin
+        @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
+      rescue ActiveRecord::RecordNotFound
+        @oai[:errors] << "idDoesNotExist"
+        render formats: :xml, layout: false
+      end
+      render template: 'oai/get_record', formats: :xml, layout: false
+      return
+    else
+      @oai[:errors] << "idDoesNotExist"
+      render formats: :xml, layout: false
     end
   end
 end

@@ -20,7 +20,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
       end
     end
     if @resumption.present?
-      if @resumption[:cursor].to_i + @manifestations.limit_value <= @count[:query_result]
+      if @resumption[:cursor].to_i <= @count[:query_result]
         token = @resumption[:token]
       else
         token = nil
