@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 
-describe "manifestations/list_metadata_formats.oai.builder" do
+describe "oai/list_metadata_formats.xml.builder" do
   fixtures :all
   it "renders the XML template" do
     render

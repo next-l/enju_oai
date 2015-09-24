@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 
-describe "manifestations/show.oai.builder" do
+describe "oai/show.xml.builder" do
   describe "When metadataPrefix is 'oai_dc'" do
     before(:each) do
       assign(:manifestation, FactoryGirl.create(:manifestation))
