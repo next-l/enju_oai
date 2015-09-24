@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 
-describe "manifestations/list_records.oai.builder" do
+describe "oai/list_records.xml.builder" do
   fixtures :all
 
   before(:each) do

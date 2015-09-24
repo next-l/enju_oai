@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require 'spec_helper'
 
-describe "manifestations/identify.oai.builder" do
+describe "oai/identify.xml.builder" do
   fixtures :all
 
   before(:each) do
