@@ -8,39 +8,32 @@ module EnjuOai
     module ClassMethods
       def check_oai_params(params)
         oai = {}
-        if params[:format] == 'oai'
-          oai[:need_not_to_search] = nil
-          oai[:errors] = []
-          case params[:verb]
-          when 'Identify'
-            oai[:need_not_to_search] = true
-          when 'ListSets'
-            oai[:need_not_to_search] = true
-          when 'ListMetadataFormats'
-            oai[:need_not_to_search] = true
-          when 'ListIdentifiers'
-            unless valid_metadata_format?(params[:metadataPrefix])
-              oai[:errors] << "cannotDisseminateFormat"
-            end
-          when 'ListRecords'
-            oai[:metadataPrefix] = params[:metadataPrefix]
-            unless valid_metadata_format?(params[:metadataPrefix])
-              oai[:errors] << "cannotDisseminateFormat"
-            end
-          when 'GetRecord'
-            if params[:identifier].blank?
-              oai[:need_not_to_search] = true
-              oai[:errors] << "badArgument"
-            end
-            oai[:metadataPrefix] = params[:metadataPrefix]
-            unless valid_metadata_format?(params[:metadataPrefix])
-              oai[:errors] << "cannotDisseminateFormat"
-            end
-          else
-            oai[:errors] << "badVerb"
+        oai[:errors] = []
+        case params[:verb]
+        when 'Identify'
+        when 'ListSets'
+        when 'ListMetadataFormats'
+        when 'ListIdentifiers'
+          unless valid_metadata_format?(params[:metadataPrefix])
+            oai[:errors] << "cannotDisseminateFormat"
           end
+        when 'ListRecords'
+          oai[:metadataPrefix] = params[:metadataPrefix]
+          unless valid_metadata_format?(params[:metadataPrefix])
+            oai[:errors] << "cannotDisseminateFormat"
+          end
+        when 'GetRecord'
+          if params[:identifier].blank?
+            oai[:errors] << "badArgument"
+          end
+          oai[:metadataPrefix] = params[:metadataPrefix]
+          unless valid_metadata_format?(params[:metadataPrefix])
+            oai[:errors] << "cannotDisseminateFormat"
+          end
+        else
+          oai[:errors] << "badVerb"
         end
-        return oai
+        oai
       end
   
       def valid_metadata_format?(format)
