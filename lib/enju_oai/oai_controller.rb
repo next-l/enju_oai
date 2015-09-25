@@ -15,12 +15,12 @@ module EnjuOai
         when 'ListMetadataFormats'
         when 'ListIdentifiers'
           unless valid_metadata_format?(params[:metadataPrefix])
-            oai[:errors] << "cannotDisseminateFormat"
+            oai[:errors] << "badArgument"
           end
         when 'ListRecords'
           oai[:metadataPrefix] = params[:metadataPrefix]
           unless valid_metadata_format?(params[:metadataPrefix])
-            oai[:errors] << "cannotDisseminateFormat"
+            oai[:errors] << "badArgument"
           end
         when 'GetRecord'
           if params[:identifier].blank?
@@ -28,7 +28,7 @@ module EnjuOai
           end
           oai[:metadataPrefix] = params[:metadataPrefix]
           unless valid_metadata_format?(params[:metadataPrefix])
-            oai[:errors] << "cannotDisseminateFormat"
+            oai[:errors] << "badArgument"
           end
         else
           oai[:errors] << "badVerb"
