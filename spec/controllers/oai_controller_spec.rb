@@ -22,7 +22,7 @@ RSpec.describe OaiController, type: :controller do
       it "should not assign all manifestations as @manifestations in oai format with ListRecords without metadataPrefix" do
         get :provider, format: 'xml', :verb => 'ListRecords'
         assigns(:manifestations).should_not be_nil
-        response.should render_template("oai/list_records")
+        response.should render_template("oai/provider")
       end
 
       it "assigns all manifestations as @manifestations in oai format with ListRecords for junii2 metadata" do
@@ -34,7 +34,7 @@ RSpec.describe OaiController, type: :controller do
       it "should not assign all manifestations as @manifestations in oai format with ListIdentifiers without metadataPrefix" do
         get :provider, format: 'xml', :verb => 'ListIdentifiers'
         assigns(:manifestations).should_not be_nil
-        response.should render_template("oai/list_identifiers")
+        response.should render_template("oai/provider")
       end
 
       it "assigns all manifestations as @manifestations in oai format with ListIdentifiers for junii2 metadata" do
