@@ -1,7 +1,6 @@
 class OaiController < ApplicationController
   def provider
     @oai = check_oai_params(params)
-    @oai[:errors] = []
     if params[:verb] == 'GetRecord'
       get_record; return
     else
@@ -51,18 +50,22 @@ class OaiController < ApplicationController
 
     respond_to do |format|
       format.xml {
-        case params[:verb]
-        when 'Identify'
-          render template: 'oai/identify', content_type: 'text/xml'
-        when 'ListMetadataFormats'
-          render template: 'oai/list_metadata_formats', content_type: 'text/xml'
-        when 'ListSets'
-          @series_statements = SeriesStatement.select([:id, :original_title])
-          render template: 'oai/list_sets', content_type: 'text/xml'
-        when 'ListIdentifiers'
-          render template: 'oai/list_identifiers', content_type: 'text/xml'
-        when 'ListRecords'
-          render template: 'oai/list_records', content_type: 'text/xml'
+        if @oai[:errors].empty?
+          case params[:verb]
+          when 'Identify'
+            render template: 'oai/identify', content_type: 'text/xml'
+          when 'ListMetadataFormats'
+            render template: 'oai/list_metadata_formats', content_type: 'text/xml'
+          when 'ListSets'
+            @series_statements = SeriesStatement.select([:id, :original_title])
+            render template: 'oai/list_sets', content_type: 'text/xml'
+          when 'ListIdentifiers'
+            render template: 'oai/list_identifiers', content_type: 'text/xml'
+          when 'ListRecords'
+            render template: 'oai/list_records', content_type: 'text/xml'
+          else
+            render template: 'oai/provider', content_type: 'text/xml'
+          end
         else
           render template: 'oai/provider', content_type: 'text/xml'
         end
