@@ -50,11 +50,11 @@ RSpec.describe OaiController, type: :controller do
         response.should render_template('oai/provider')
       end
 
-      it "assigns all manifestations as @manifestations in oai format with GetRecord with identifier" do
+      it "should not assign all manifestations as @manifestations in oai format with GetRecord with identifier without metadataPrefix" do
         get :provider, format: 'xml', :verb => 'GetRecord', :identifier => 'oai:localhost:manifestations-1'
         assigns(:manifestations).should be_nil
         assigns(:manifestation).should_not be_nil
-        response.should render_template('oai/get_record')
+        response.should render_template('oai/provider')
       end
       it "assigns all manifestations as @manifestations in oai format with GetRecord with identifier for junii2 metadata" do
         get :provider, format: 'xml', :verb => 'GetRecord', :identifier => 'oai:localhost:manifestations-1', :metadataPrefix => 'junii2'
