@@ -80,12 +80,14 @@ class OaiController < ApplicationController
         @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
       rescue ActiveRecord::RecordNotFound
         @oai[:errors] << "idDoesNotExist"
-        render template: 'oai/provider', content_type: 'text/xml'
       end
-      render template: 'oai/get_record', content_type: 'text/xml'
-      return
     else
       @oai[:errors] << "idDoesNotExist"
+    end
+
+    if @oai[:errors].empty?
+      render template: 'oai/get_record', content_type: 'text/xml'
+    else
       render template: 'oai/provider', content_type: 'text/xml'
     end
   end
