@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "enju_biblio", "~> 0.1.0.pre69"
   s.add_dependency "enju_subject", "~> 0.1.0.pre33"
-  # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "mysql2", "~> 0.3.20"
