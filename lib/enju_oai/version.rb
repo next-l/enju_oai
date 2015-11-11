@@ -1,3 +1,3 @@
 module EnjuOai
-  VERSION = "0.1.0.pre20"
+  VERSION = "0.1.0"
 end
