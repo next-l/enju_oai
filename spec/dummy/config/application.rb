@@ -2,7 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-Bundler.require
+Bundler.require(*Rails.groups)
 require 'enju_oai'
 require 'enju_nii'
 require 'enju_leaf'
