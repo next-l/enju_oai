@@ -7,9 +7,6 @@ describe "oai/identify.xml.builder" do
   before(:each) do
     assign(:library_group, LibraryGroup.site_config)
     view.stub(:current_user).and_return(User.where(username: 'enjuadmin').first)
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    controller.stub(:current_ability) { @ability }
   end
 
   it "renders the XML template" do

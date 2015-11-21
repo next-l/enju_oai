@@ -5,4 +5,7 @@ class ApplicationController < ActionController::Base
   enju_biblio
   enju_library
   enju_subject
+  after_action :verify_authorized
+
+  include Pundit
 end

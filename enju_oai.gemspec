@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "enju_leaf", "~> 1.1.0"
   s.add_development_dependency "enju_nii", "~> 0.1.0"
   s.add_development_dependency "simplecov"
-  s.add_development_dependency "sunspot_solr", "~> 2.2"
+  s.add_development_dependency "sunspot_solr", "~> 2.2.1"
   s.add_development_dependency "sunspot-rails-tester"
-  s.add_development_dependency "appraisal"
+  s.add_development_dependency "coveralls"
 end

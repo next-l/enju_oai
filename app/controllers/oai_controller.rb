@@ -1,4 +1,6 @@
 class OaiController < ApplicationController
+  before_action :check_policy, only: :provider
+
   def provider
     @oai = check_oai_params(params)
     if params[:verb] == 'GetRecord'
@@ -74,6 +76,10 @@ class OaiController < ApplicationController
   end
 
   private
+  def check_policy
+    authorize Oai
+  end
+
   def get_record
     if params[:identifier]
       begin
