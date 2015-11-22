@@ -1,6 +1,6 @@
 = EnjuOai
-{<img src="https://travis-ci.org/next-l/enju_oai.svg?branch=master" alt="Build Status" />}[http://travis-ci.org/next-l/enju_oai]
-{<img src="https://img.shields.io/coveralls/next-l/enju_oai.svg" alt="Coverage Status" />}[https://coveralls.io/r/next-l/enju_oai?branch=master]
+{<img src="https://travis-ci.org/next-l/enju_oai.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/next-l/enju_oai]
+{<img src="https://coveralls.io/repos/next-l/enju_circulation/badge.svg?branch=master&service=github" alt="Coverage Status" />}[https://coveralls.io/github/next-l/enju_circulation?branch=master]
 {<img src="https://hakiri.io/github/next-l/enju_oai/master.svg" alt="security" />}[https://hakiri.io/github/next-l/enju_oai/master]
 
 This project rocks and uses MIT-LICENSE.
