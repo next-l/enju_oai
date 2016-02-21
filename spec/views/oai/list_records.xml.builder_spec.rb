@@ -7,7 +7,10 @@ describe "oai/list_records.xml.builder" do
   before(:each) do
     view.stub(:current_user_role_name).and_return('Guest')
     assign(:oai, { :errors => [] })
-    assign(:manifestations, [FactoryGirl.create(:manifestation)])
+    manifestations = [ FactoryGirl.create(:manifestation) ]
+    manifestations.stub(:last_page?){true}
+    manifestations.stub(:total_count){manifestations.size}
+    assign(:manifestations, manifestations)
   end
 
   it "renders the XML template" do
@@ -16,7 +19,10 @@ describe "oai/list_records.xml.builder" do
   end
 
   it "renders dc:date" do
-    assign(:manifestations, [FactoryGirl.create(:manifestation, pub_date: '2015-08-15')])
+    manifestations = [FactoryGirl.create(:manifestation, pub_date: '2015-08-15')]
+    manifestations.stub(:last_page?){true}
+    manifestations.stub(:total_count){manifestations.size}
+    assign(:manifestations, manifestations)
     render
     expect(rendered).to match /2015-08-15/
   end
@@ -40,7 +46,10 @@ describe "oai/list_records.xml.builder" do
       expect(rendered).to match /<junii2/
     end
     it "renders NIItype" do
-      assign(:manifestations, [FactoryGirl.create(:manifestation, nii_type_id: 1)])
+      manifestations = [FactoryGirl.create(:manifestation, nii_type_id: 1)]
+      manifestations.stub(:last_page?){true}
+      manifestations.stub(:total_count){manifestations.size}
+      assign(:manifestations, manifestations)
       render
       expect(rendered).to match /<NIItype>Journal Article<\/NIItype>/
     end

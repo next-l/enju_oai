@@ -2,8 +2,10 @@ module EnjuOai
   module OaiModel
     extend ActiveSupport::Concern
 
-    def self.find_by_oai_identifier(identifier)
-      self.find(identifier.to_s.split(":").last.split("-").last)
+    module ClassMethods
+      def find_by_oai_identifier(identifier)
+        self.find(identifier.to_s.split(":").last.split("-").last)
+      end
     end
   
     def oai_identifier
