@@ -42,7 +42,7 @@ module EnjuOai
   
       def valid_metadata_format?(format)
         if format.present?
-          if ['oai_dc', 'junii2'].include?(format)
+          if ['oai_dc', 'junii2', 'dcndl'].include?(format)
             true
           else
             false

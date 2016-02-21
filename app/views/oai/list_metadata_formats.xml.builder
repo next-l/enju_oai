@@ -15,5 +15,10 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
       xml.schema "http://irdb.nii.ac.jp/oai/junii2-3-1.xsd"
       xml.metadataNamespace "http://irdb.nii.ac.jp/oai"
     end
+    xml.metadataFormat do
+      xml.metadataPrefix "dcndl"
+      xml.schema nil
+      xml.metadataNamespace "http://ndl.go.jp/dcndl/terms/"
+    end
   end
 end
