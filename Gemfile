@@ -16,7 +16,7 @@ gem "enju_subject", github: "next-l/enju_subject"
 gem "enju_nii", github: "next-l/enju_nii"
 gem "enju_manifestation_viewer", github: "next-l/enju_manifestation_viewer"
 gem "globalize", github: "globalize/globalize"
-gem "coveralls", require: false, group: :test
+gem "codeclimate-test-reporter", group: :test, require: false
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
