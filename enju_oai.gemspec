@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "enju_leaf", "~> 1.2.0.beta.1"
   s.add_development_dependency "enju_library", "~> 0.2.0.beta.1"
   s.add_development_dependency "enju_manifestation_viewer", "~> 0.2.0.beta.1"
-  s.add_development_dependency "enju_subject", "~> 0.2.0.beta.1"
   s.add_development_dependency "enju_nii", "~> 0.2.0.beta.1"
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "mysql2"
