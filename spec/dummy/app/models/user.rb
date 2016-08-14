@@ -5,3 +5,6 @@ class User < ActiveRecord::Base
 
   include EnjuSeed::EnjuUser
 end
+
+Item.include(EnjuLibrary::EnjuItem)
+Manifestation.include(EnjuOai::OaiModel)
