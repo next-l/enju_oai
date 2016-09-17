@@ -8,3 +8,4 @@ end
 
 Item.include(EnjuLibrary::EnjuItem)
 Manifestation.include(EnjuOai::OaiModel)
+Manifestation.include(EnjuSubject::EnjuManifestation)

@@ -54,4 +54,14 @@ describe "oai/list_records.xml.builder" do
       expect(rendered).to match /<NIItype>Journal Article<\/NIItype>/
     end
   end
+
+  describe "when metadataPrefix is dcndl" do
+    before(:each) do
+      assign(:oai, { :errors => [], :metadataPrefix => 'dcndl' } )
+    end
+    it "renders the XML template" do
+      render
+      expect(rendered).to match /dcndl/
+    end
+  end
 end
