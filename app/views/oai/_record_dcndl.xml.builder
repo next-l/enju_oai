@@ -12,9 +12,7 @@ xml_builder.tag! "rdf:RDF",
     xml_builder.tag! "dcndl:bibRecordCategory", ENV['DCNDL_BIBRECORDCATEGORY']
   end
   xml_builder.tag! "dcndl:BibResource", "rdf:about" => get_record_url + "#material" do
-    xml_builder.tag! "rdfs:seeAlso" do
-      xml_builder.tag! "rdf:resource", "rdf:about" => manifestation_url(manifestation)
-    end
+    xml_builder.tag! "rdfs:seeAlso", "rdf:resource" => manifestation_url(manifestation)
     manifestation.identifiers.each do |identifier|
       case identifier.identifier_type.try(:name)
       when 'isbn'
@@ -76,8 +74,8 @@ xml_builder.tag! "rdf:RDF",
       xml_builder.tag! "dcndl:edition", manifestation.edition
     end
     unless manifestation.creators.empty?
-      xml_builder.tag! "dcterms:creator" do
-        manifestation.creators.each do |creator|
+      manifestation.creators.each do |creator|
+        xml_builder.tag! "dcterms:creator" do
           xml_builder.tag! "foaf:Agent" do
             xml_builder.tag! "foaf:name", creator.full_name
             if creator.full_name_transcription?
@@ -102,7 +100,7 @@ xml_builder.tag! "rdf:RDF",
             xml_builder.tag! "dcndl:transcription", publisher.corporate_name_transcription if publisher.corporate_name_transcription?
           elsif publisher.full_name
             xml_builder.tag! "foaf:name", publisher.full_name
-            xml_builder.tag! "dcnd:transcription", publisher.full_name_transcription if publisher.full_name_transcription?
+            xml_builder.tag! "dcndl:transcription", publisher.full_name_transcription if publisher.full_name_transcription?
           end
           xml_builder.tag! "dcterms:description", publisher.note if publisher.note?
           xml_builder.tag! "dcndl:location", publisher.place if publisher.place?
@@ -110,7 +108,7 @@ xml_builder.tag! "rdf:RDF",
       end
     end
     manifestation.publishers.each do |publisher|
-      xml_builder.tag! "dcndl:publicationPlace", publisher.country.alpha_2 if publisher.country
+      xml_builder.tag! "dcndl:publicationPlace", publisher.country.alpha_2 if publisher.country.try(:name) != "unknown"
     end
     xml_builder.tag! "dcterms:issued", manifestation.pub_date, "rdf:datatype" => "http://purl.org/dc/terms/W3CDTF" if manifestation.pub_date?
     xml_builder.tag! "dcterms:description", manifestation.description if manifestation.description?

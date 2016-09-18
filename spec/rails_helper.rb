@@ -9,6 +9,7 @@ require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
 require 'sunspot-rails-tester'
+require 'vcr'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -55,3 +56,11 @@ end
 
 FactoryGirl.definition_file_paths << "#{::Rails.root}/../../spec/factories"
 FactoryGirl.find_definitions
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassette_library'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.allow_http_connections_when_no_cassette = true
+  c.ignore_localhost = true
+end

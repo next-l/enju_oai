@@ -63,5 +63,15 @@ describe "oai/list_records.xml.builder" do
       render
       expect(rendered).to match /dcndl/
     end
+    it "renders well-formed XML", vcr: true do
+      NdlBook.import_from_sru_response('R100000002-I000008369884-00')
+      manifestations = Manifestation.all
+      manifestations.stub(:last_page?){true}
+      manifestations.stub(:total_count){manifestations.size}
+      assign(:manifestations, manifestations)
+      render
+      doc = Nokogiri::XML(rendered)
+      expect(doc.errors).to be_empty
+    end
   end
 end
