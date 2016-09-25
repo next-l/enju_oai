@@ -31,6 +31,13 @@ RSpec.describe OaiController, type: :controller do
         response.should render_template("oai/list_records")
       end
 
+      it "should limit from/until parameter with ListRecords" do
+        FactoryGirl.create(:manifestation, updated_at: DateTime.new(2016,5,1))
+        get :provider, format: 'xml', verb: 'ListRecords', metadataPrefix: 'junii2', from: '2016-05-01', until: '2016-05-02'
+        expect(assigns(:manifestations)).not_to be_blank
+        expect(assigns(:manifestations).size).to eq 1
+      end
+
       it "should not assign all manifestations as @manifestations in oai format with ListIdentifiers without metadataPrefix" do
         get :provider, format: 'xml', :verb => 'ListIdentifiers'
         assigns(:manifestations).should_not be_nil

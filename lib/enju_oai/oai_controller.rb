@@ -87,7 +87,7 @@ module EnjuOai
           times[:from] = Time.zone.parse(from_t)
         end
         if /^[12]\d{3}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/ =~ until_t
-          times[:until] = Time.zone.parse(until_t).beginning_of_day
+          times[:until] = Time.zone.parse(until_t).end_of_day
         else
           times[:until] = Time.zone.parse(until_t)
         end

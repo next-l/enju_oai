@@ -21,6 +21,7 @@ class OaiController < ApplicationController
       search = Manifestation.search do
         order_by :updated_at, :desc
         paginate cursor: token, per_page: oai_per_page
+        with(:updated_at).between(from_time..until_time)
       end
       @manifestations = search.execute!.results
 
