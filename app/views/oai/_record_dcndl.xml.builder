@@ -140,7 +140,9 @@ xml_builder.tag! "rdf:RDF",
     end
     xml_builder.tag! "dcterms:language", manifestation.language.iso_639_2, "rdf:datatype" => "http://purl.org/dc/terms/ISO639-2"
     xml_builder.tag! "dcndl:price", manifestation.price if manifestation.price?
-    xml_builder.tag! "dcndl:extent", manifestation.extent if manifestation.extent?
+    if manifestation.extent? or manifestation.dimensions?
+      xml_builder.tag! "dcterms:extent", [ manifestation.extent, manifestation.dimensions ].compact.join(" ; ")
+    end
     material_type = nil
     case manifestation.carrier_type.name
     when "volume"

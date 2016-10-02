@@ -73,5 +73,14 @@ describe "oai/list_records.xml.builder" do
       doc = Nokogiri::XML(rendered)
       expect(doc.errors).to be_empty
     end
+    it "renders extent and dimensions" do
+      FactoryGirl.create(:manifestation, extent: "123p", dimensions: "23cm")
+      manifestations = Manifestation.all
+      manifestations.stub(:last_page?){true}
+      manifestations.stub(:total_count){manifestations.size}
+      assign(:manifestations, manifestations)
+      render
+      expect(rendered).to include "<dcterms:extent>123p ; 23cm</dcterms:extent>"
+    end
   end
 end
