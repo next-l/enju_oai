@@ -19,13 +19,10 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
         end
       end
     end
-    if @resumption.present?
-      if @resumption[:cursor].to_i <= @count[:query_result]
-        token = @resumption[:token]
-      else
-        token = nil
-      end
-      xml.resumptionToken token, completeListSize: @count[:query_result], cursor: @cursor.to_i
+    if @manifestations.last_page?
+      xml.resumptionToken nil, completeListSize: @manifestations.total_count
+    else
+      xml.resumptionToken CGI.escape(@manifestations.next_page_cursor), completeListSize: @manifestations.total_count
     end
   end
 end

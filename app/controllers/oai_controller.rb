@@ -1,4 +1,6 @@
 class OaiController < ApplicationController
+  before_action :check_policy, only: :provider
+
   def provider
     @oai = check_oai_params(params)
     if params[:verb] == 'GetRecord'
@@ -8,42 +10,21 @@ class OaiController < ApplicationController
       from_time = @from_time = from_and_until_times[:from]
       until_time = @until_time = from_and_until_times[:until]
 
+      if params[:resumptionToken]
+        token = params[:resumptionToken]
+      else
+        token = '*'
+      end
+
       # OAI-PMHのデフォルトの件数
-      oai_per_page = 200
+      oai_per_page = 500
       search = Manifestation.search do
         order_by :updated_at, :desc
-        paginate page: 1, per_page: oai_per_page
-      end
-      @count = {query_result: search.execute!.total}
-
-      if params[:resumptionToken]
-        token = params[:resumptionToken].split(',')
-        if token.size == 3
-          @cursor = token.reverse.first.to_i
-          if @cursor <= @count[:query_result]
-            page = (@cursor.to_i + oai_per_page).div(oai_per_page)
-          else
-            @oai[:errors] << 'badResumptionToken'
-          end
-        else
-          @oai[:errors] << 'badResumptionToken'
-        end
-      end
-      page ||= 1
-
-      search.build do
-        order_by :updated_at, :desc
-        paginate page: page, per_page: oai_per_page
+        paginate cursor: token, per_page: oai_per_page
       end
       @manifestations = search.execute!.results
 
-      unless @manifestations.empty?
-        @resumption = set_resumption_token(
-          params[:resumptionToken],
-          @from_time || Manifestation.order(:updated_at).first.updated_at,
-          @until_time || Manifestation.order(:updated_at).last.updated_at
-        )
-      else
+      if @manifestations.empty?
         @oai[:errors] << 'noRecordsMatch'
       end
     end
@@ -74,6 +55,10 @@ class OaiController < ApplicationController
   end
 
   private
+  def check_policy
+    authorize Oai
+  end
+
   def get_record
     if params[:identifier]
       begin

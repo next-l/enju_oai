@@ -1,5 +1,6 @@
 xml_builder.junii2 :version => '3.1',
   "xsi:schemaLocation" => "http://irdb.nii.ac.jp/oai http://irdb.nii.ac.jp/oai/junii2-3-1.xsd",
+  "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
   "xmlns" => "http://irdb.nii.ac.jp/oai",
   "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml_builder.title manifestation.original_title
@@ -81,7 +82,7 @@ xml_builder.junii2 :version => '3.1',
   unless manifestation.attachment.blank?
     xml_builder.fulltextURL manifestation_url(id: manifestation.id, format: :download)
   end
-  %w[ ISBN ISSN NCID ].each do |identifier|
+  %w[ isbn issn NCID ].each do |identifier|
     manifestation.identifier_contents(identifier.downcase).each do |val|
       xml_builder.tag! identifier, val
     end
@@ -93,7 +94,9 @@ xml_builder.junii2 :version => '3.1',
   xml_builder.issue manifestation.issue_number_string
   xml_builder.spage manifestation.start_page
   xml_builder.epage manifestation.end_page
-  xml_builder.dateofissued manifestation.pub_date
+  if manifestation.pub_date?
+    xml_builder.dateofissued manifestation.pub_date
+  end
   #TODO: junii2: source
   if manifestation.language.blank? or manifestation.language.name == 'unknown'
     xml_builder.language "und"

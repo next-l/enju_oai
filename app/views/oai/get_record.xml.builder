@@ -19,6 +19,8 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
           render 'record_oai_dc', manifestation: @manifestation, xml_builder: xml
         when 'junii2'
           render 'record_junii2', manifestation: @manifestation, xml_builder: xml
+        when 'dcndl'
+          render 'record_dcndl', manifestation: @manifestation, xml_builder: xml
         end
       end
     end
