@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe "oai/show.xml.builder" do
   describe "When metadataPrefix is 'oai_dc'" do
