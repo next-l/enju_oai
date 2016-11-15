@@ -28,4 +28,16 @@ describe "oai/show.xml.builder" do
       rendered.should match /<title>manifestation_title/
     end
   end
+
+  describe "When metadataPrefix is 'dcndl'" do
+    before(:each) do
+      assign(:oai, metadataPrefix: 'dcndl')
+    end
+    it "renders the XML template" do
+      render
+      rendered.should match /<metadata\b/
+      rendered.should match /<dcndl\b/
+      rendered.should match /<dcterms:title>manifestation_title/
+    end
+  end
 end

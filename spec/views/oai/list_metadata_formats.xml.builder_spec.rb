@@ -14,4 +14,8 @@ describe "oai/list_metadata_formats.xml.builder" do
     render
     expect(rendered).to match /junii2/
   end
+  it "supports dcndl metadata format" do
+    render
+    expect(rendered).to match /dcndl/
+  end
 end
