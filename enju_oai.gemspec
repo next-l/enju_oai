@@ -20,14 +20,12 @@ Gem::Specification.new do |s|
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "pg"
-  s.add_development_dependency "rspec-rails", "~> 3.4"
+  s.add_development_dependency "rspec-rails", "~> 3.5"
   s.add_development_dependency "factory_girl_rails"
   #s.add_development_dependency "enju_leaf", "~> 1.2.0"
   #s.add_development_dependency "enju_nii", "~> 0.2.0"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "sunspot_solr", "2.2.0"
   s.add_development_dependency "sunspot-rails-tester"
-  s.add_development_dependency "appraisal"
   s.add_development_dependency "redis-rails"
-  s.add_development_dependency "resque-scheduler"
 end
