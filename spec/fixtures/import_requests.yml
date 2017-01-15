@@ -15,8 +15,8 @@ two:
 # Table name: import_requests
 #
 #  id               :integer          not null, primary key
-#  isbn             :string(255)
-#  manifestation_id :integer
+#  isbn             :string
+#  manifestation_id :uuid
 #  user_id          :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

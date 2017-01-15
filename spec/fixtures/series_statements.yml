@@ -20,14 +20,14 @@ four:
   id: 4
   original_title: テスト雑誌
   position: 4
-  root_manifestation_id: 202
+  root_manifestation_id: 203
 
 five:
   id: 5
   original_title: テスト雑誌
   position: 5
   manifestation_id: 204
-  root_manifestation_id: 202
+  root_manifestation_id: 204
 
 # == Schema Information
 #
@@ -39,11 +39,11 @@ five:
 #  title_subseries                    :text
 #  numbering_subseries                :text
 #  position                           :integer
-#  created_at                         :datetime         not null
-#  updated_at                         :datetime         not null
+#  created_at                         :datetime
+#  updated_at                         :datetime
 #  title_transcription                :text
 #  title_alternative                  :text
-#  series_statement_identifier        :string(255)
+#  series_statement_identifier        :string
 #  manifestation_id                   :integer
 #  note                               :text
 #  title_subseries_transcription      :text
@@ -53,4 +53,3 @@ five:
 #  series_master                      :boolean
 #  root_manifestation_id              :integer
 #
-
