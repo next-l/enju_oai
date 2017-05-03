@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "enju_biblio", "~> 0.2.1"
 
-  s.add_development_dependency "enju_leaf", "~> 1.2.0"
+  s.add_development_dependency "enju_leaf", "~> 1.2.1"
   s.add_development_dependency "enju_nii", "~> 0.2.0"
   s.add_development_dependency "enju_ndl", "~> 0.2.0"
   s.add_development_dependency "globalize", "~> 5.1.0.beta1"
