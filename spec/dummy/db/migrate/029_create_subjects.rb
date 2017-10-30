@@ -1,4 +1,4 @@
-class CreateSubjects < ActiveRecord::Migration[5.0]
+class CreateSubjects < ActiveRecord::Migration[5.1]
   def change
     create_table :subjects, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.integer :parent_id, index: true

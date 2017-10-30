@@ -1,4 +1,4 @@
-class CreateCheckins < ActiveRecord::Migration[5.0]
+class CreateCheckins < ActiveRecord::Migration[5.1]
   def change
     create_table :checkins do |t|
       t.references :item, null: false, type: :uuid
