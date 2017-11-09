@@ -13,19 +13,16 @@ xml_builder.tag! "rdf:RDF",
   end
   xml_builder.tag! "dcndl:BibResource", "rdf:about" => get_record_url + "#material" do
     xml_builder.tag! "rdfs:seeAlso", "rdf:resource" => manifestation_url(manifestation)
-    manifestation.identifiers.each do |identifier|
-      case identifier.identifier_type.try(:name)
-      when 'isbn'
-        xml_builder.tag! "rdfs:seeAlso", "rdf:resource" => "http://iss.ndl.go.jp/isbn/#{ identifier.body }"
-        xml_builder.tag! "dcterms:identifier", identifier.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/ISBN"
-      when 'issn'
-        xml_builder.tag! "dcterms:identifier", identifier.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/ISSN"
-      when 'doi'
-        xml_builder.tag! "dcterms:identifier", identifier.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/DOI"
-      when 'ncid'
-        xml_builder.tag! "dcterms:identifier", identifier.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/NIIBibID"
-      end
+    manifestation.isbn_records.each do |isbn_record|
+      xml_builder.tag! "rdfs:seeAlso", "rdf:resource" => "http://iss.ndl.go.jp/isbn/#{ isbn_record.body }"
+      xml_builder.tag! "dcterms:identifier", isbn_record.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/ISBN"
     end
+    manifestation.issn_records.each do |issn_record|
+      xml_builder.tag! "dcterms:identifier", issn_record.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/ISSN"
+    end
+
+    xml_builder.tag! "dcterms:identifier", manifestation.doi_record.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/DOI" if manifestation.doi_record
+    xml_builder.tag! "dcterms:identifier", manifestation.ncid_record.body, "rdf:datatype" => "http://ndl.go.jp/dcndl/terms/NIIBibID" if manifestation.ncid_record
     xml_builder.tag! "dcterms:title", manifestation.original_title
     xml_builder.tag! "dc:title" do
       xml_builder.tag! "rdf:Description" do

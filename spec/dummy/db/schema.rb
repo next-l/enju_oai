@@ -654,6 +654,15 @@ ActiveRecord::Schema.define(version: 20170116152012) do
     t.index ["shelf_id"], name: "index_items_on_shelf_id"
   end
 
+  create_table "jpno_records", id: :serial, force: :cascade do |t|
+    t.string "body", null: false
+    t.uuid "manifestation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["body"], name: "index_jpno_records_on_body", unique: true
+    t.index ["manifestation_id"], name: "index_jpno_records_on_manifestation_id"
+  end
+
   create_table "languages", force: :cascade do |t|
     t.string "name", null: false
     t.string "native_name"
@@ -851,6 +860,15 @@ ActiveRecord::Schema.define(version: 20170116152012) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ncid_records", id: :serial, force: :cascade do |t|
+    t.string "body", null: false
+    t.uuid "manifestation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["body"], name: "index_ncid_records_on_body", unique: true
+    t.index ["manifestation_id"], name: "index_ncid_records_on_manifestation_id"
   end
 
   create_table "nii_types", force: :cascade do |t|
@@ -1375,9 +1393,11 @@ ActiveRecord::Schema.define(version: 20170116152012) do
   add_foreign_key "item_has_use_restrictions", "items"
   add_foreign_key "item_has_use_restrictions", "use_restrictions"
   add_foreign_key "items", "manifestations"
+  add_foreign_key "jpno_records", "manifestations"
   add_foreign_key "lending_policies", "items"
   add_foreign_key "lending_policies", "user_groups"
   add_foreign_key "library_groups", "users"
+  add_foreign_key "ncid_records", "manifestations"
   add_foreign_key "owns", "agents"
   add_foreign_key "owns", "items"
   add_foreign_key "periodicals", "manifestations"

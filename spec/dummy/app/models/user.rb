@@ -9,3 +9,5 @@ end
 Item.include(EnjuLibrary::EnjuItem)
 Manifestation.include(EnjuOai::OaiModel)
 Manifestation.include(EnjuSubject::EnjuManifestation)
+Manifestation.include(EnjuNdl::EnjuManifestation)
+Manifestation.include(EnjuNii::EnjuManifestation)

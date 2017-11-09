@@ -73,11 +73,19 @@ xml_builder.junii2 :version => '3.1',
   if manifestation.manifestation_identifier?
     xml_builder.identifier manifestation.manifestation_identifier
   end
-  manifestation.identifiers.each do |identifier|
-    unless identifier.identifier_type.name =~ /isbn|issn|ncid|doi|naid|pmid|ichushi/io
-      xml_builder.identifier identifier.body
-    end
+  manifestation.isbn_records.each do |isbn_record|
+    xml_builder.identifier isbn_record.body
   end
+  manifestation.issn_records.each do |issn_record|
+    xml_builder.identifier issn_record.body
+  end
+  xml_builder.identifier manifestation.doi_record.body if manifestation.doi_record
+  xml_builder.identifier manifestation.ncid_record.body if manifestation.ncid_record
+  #manifestation.identifiers.each do |identifier|
+  #  unless identifier.identifier_type.name =~ /naid|pmid|ichushi/io
+  #    xml_builder.identifier identifier.body
+  #  end
+  #end
   xml_builder.URI manifestation_url( manifestation )
   unless manifestation.attachment.blank?
     xml_builder.fulltextURL manifestation_url(id: manifestation.id, format: :download)
