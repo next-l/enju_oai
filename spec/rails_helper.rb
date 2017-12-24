@@ -54,8 +54,8 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 end
 
-FactoryGirl.definition_file_paths << "#{::Rails.root}/../../spec/factories"
-FactoryGirl.find_definitions
+FactoryBot.definition_file_paths << "#{::Rails.root}/../../spec/factories"
+FactoryBot.find_definitions
 
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassette_library'

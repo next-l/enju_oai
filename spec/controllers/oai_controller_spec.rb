@@ -4,7 +4,7 @@ RSpec.describe OaiController, type: :controller do
   fixtures :all
 
   def valid_attributes
-    FactoryGirl.attributes_for(:manifestation)
+    FactoryBot.attributes_for(:manifestation)
   end
 
   describe "GET index", :solr => true do
@@ -32,7 +32,7 @@ RSpec.describe OaiController, type: :controller do
       end
 
       it "should limit from/until parameter with ListRecords" do
-        FactoryGirl.create(:manifestation, updated_at: DateTime.new(2016,5,1))
+        FactoryBot.create(:manifestation, updated_at: DateTime.new(2016,5,1))
         get :provider, format: 'xml', verb: 'ListRecords', metadataPrefix: 'junii2', from: '2016-05-01', until: '2016-05-02'
         expect(assigns(:manifestations)).not_to be_blank
         expect(assigns(:manifestations).size).to eq 1

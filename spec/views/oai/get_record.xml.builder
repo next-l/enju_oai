@@ -4,7 +4,7 @@ require 'rails_helper'
 describe "oai/show.xml.builder" do
   describe "When metadataPrefix is 'oai_dc'" do
     before(:each) do
-      assign(:manifestation, FactoryGirl.create(:manifestation))
+      assign(:manifestation, FactoryBot.create(:manifestation))
       assign(:oai, metadataPrefix: 'oai_dc')
     end
 
@@ -18,7 +18,7 @@ describe "oai/show.xml.builder" do
 
   describe "When metadataPrefix is 'junii2'" do
     before(:each) do
-      assign(:manifestation, FactoryGirl.create(:manifestation))
+      assign(:manifestation, FactoryBot.create(:manifestation))
       assign(:oai, metadataPrefix: 'junii2')
     end
 
