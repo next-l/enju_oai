@@ -4,7 +4,7 @@ RSpec.describe OaiController, type: :controller do
   fixtures :all
 
   def valid_attributes
-    FactoryGirl.attributes_for(:manifestation)
+    FactoryBot.attributes_for(:manifestation)
   end
 
   describe 'GET index', solr: true do

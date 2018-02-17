@@ -90,10 +90,11 @@ xml_builder.junii2 :version => '3.1',
   unless manifestation.attachment.blank?
     xml_builder.fulltextURL manifestation_url(id: manifestation.id, format: :download)
   end
-  %w[ isbn issn NCID ].each do |identifier|
-    manifestation.identifier_contents(identifier.downcase).each do |val|
-      xml_builder.tag! identifier, val
-    end
+  manifestation.isbn_records.pluck(:body).each do |val|
+    xml_builder.tag! isbn, val
+  end
+  manifestation.issn_records.pluck(:body).each do |val|
+    xml_builder.tag! issn, val
   end
   if manifestation.root_series_statement
     xml_builder.jtitle manifestation.root_series_statement.original_title

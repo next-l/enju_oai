@@ -6,7 +6,7 @@ describe "oai/list_records.xml.builder" do
   before(:each) do
     view.stub(:current_user_role_name).and_return('Guest')
     assign(:oai, { :errors => [] })
-    manifestations = [ FactoryGirl.create(:manifestation) ]
+    manifestations = [ FactoryBot.create(:manifestation) ]
     manifestations.stub(:last_page?){true}
     manifestations.stub(:total_count){manifestations.size}
     assign(:manifestations, manifestations)
@@ -18,7 +18,7 @@ describe "oai/list_records.xml.builder" do
   end
 
   it "renders dc:date" do
-    manifestations = [FactoryGirl.create(:manifestation, pub_date: '2015-08-15')]
+    manifestations = [FactoryBot.create(:manifestation, pub_date: '2015-08-15')]
     manifestations.stub(:last_page?){true}
     manifestations.stub(:total_count){manifestations.size}
     assign(:manifestations, manifestations)
@@ -45,7 +45,7 @@ describe "oai/list_records.xml.builder" do
       expect(rendered).to match /<junii2/
     end
     it "renders NIItype" do
-      manifestations = [FactoryGirl.create(:manifestation, nii_type_id: 1)]
+      manifestations = [FactoryBot.create(:manifestation, nii_type_id: 1)]
       manifestations.stub(:last_page?){true}
       manifestations.stub(:total_count){manifestations.size}
       assign(:manifestations, manifestations)
@@ -73,7 +73,7 @@ describe "oai/list_records.xml.builder" do
       expect(doc.errors).to be_empty
     end
     it "renders extent and dimensions" do
-      FactoryGirl.create(:manifestation, extent: "123p", dimensions: "23cm")
+      FactoryBot.create(:manifestation, extent: "123p", dimensions: "23cm")
       manifestations = Manifestation.all
       manifestations.stub(:last_page?){true}
       manifestations.stub(:total_count){manifestations.size}
