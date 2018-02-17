@@ -1,8 +1,8 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.2.6
-  - 2.3.3
+  - 2.2.7
+  - 2.3.4
 before_script:
   - mysql -e 'create database enju_test DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;'
   - psql -c 'create database enju_test;' -U postgres
@@ -17,4 +17,3 @@ notifications:
   slack:
     secure: FA7F9uAjzRWSLA8Pt0bdLuIF0RRNyj7exiDwbQbI5sCqRe/sbggKVDmZ/n/ndArEmA4Ca2WUveHnuucmBSmkgtU3eOU+cRK113YibtX9RW+QlGkuE05qDWROAAyCMotmp1fYSYyXQCAF4ZGC5Vhatf2BAJ7XK8fHbMuin/BLwMA=
 sudo: false
-dist: precise
