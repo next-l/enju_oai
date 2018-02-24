@@ -21,13 +21,15 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.bigint "librarian_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "item_id", null: false
     t.index ["basket_id"], name: "index_accepts_on_basket_id"
+    t.index ["item_id"], name: "index_accepts_on_item_id"
     t.index ["librarian_id"], name: "index_accepts_on_librarian_id"
   end
 
   create_table "agent_import_file_transitions", force: :cascade do |t|
     t.string "to_state"
-    t.jsonb "metadata", default: "{}"
+    t.jsonb "metadata", default: {}
     t.integer "sort_key"
     t.integer "agent_import_file_id"
     t.datetime "created_at", null: false
@@ -38,26 +40,16 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "agent_import_files", force: :cascade do |t|
-    t.integer "parent_id"
-    t.string "content_type"
-    t.integer "size"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.text "note"
     t.datetime "executed_at"
-    t.string "agent_import_file_name"
-    t.string "agent_import_content_type"
-    t.integer "agent_import_size"
-    t.datetime "agent_import_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "agent_import_fingerprint"
     t.text "error_message"
     t.string "edit_mode"
     t.string "user_encoding"
-    t.string "agent_import_id"
     t.jsonb "attachment_data"
-    t.index ["agent_import_id"], name: "index_agent_import_files_on_agent_import_id"
-    t.index ["parent_id"], name: "index_agent_import_files_on_parent_id"
     t.index ["user_id"], name: "index_agent_import_files_on_user_id"
   end
 
@@ -76,8 +68,8 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "agent_merges", force: :cascade do |t|
-    t.integer "agent_id", null: false
-    t.integer "agent_merge_list_id", null: false
+    t.uuid "agent_id"
+    t.bigint "agent_merge_list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agent_id"], name: "index_agent_merges_on_agent_id"
@@ -113,12 +105,13 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "agent_relationships", force: :cascade do |t|
-    t.integer "parent_id"
-    t.integer "child_id"
-    t.integer "agent_relationship_type_id"
+    t.uuid "parent_id", null: false
+    t.uuid "child_id", null: false
+    t.bigint "agent_relationship_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.index ["agent_relationship_type_id"], name: "index_agent_relationships_on_agent_relationship_type_id"
     t.index ["child_id"], name: "index_agent_relationships_on_child_id"
     t.index ["parent_id"], name: "index_agent_relationships_on_parent_id"
   end
@@ -133,7 +126,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.index ["name"], name: "index_agent_types_on_name", unique: true
   end
 
-  create_table "agents", force: :cascade do |t|
+  create_table "agents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "last_name"
     t.string "middle_name"
     t.string "first_name"
@@ -147,7 +140,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.text "full_name_alternative"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
     t.string "zip_code_1"
     t.string "zip_code_2"
     t.text "address_1"
@@ -172,7 +164,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.integer "lock_version", default: 0, null: false
     t.text "note"
     t.integer "required_role_id", default: 1, null: false
-    t.integer "required_score", default: 0, null: false
     t.text "email"
     t.text "url"
     t.text "full_name_alternative_transcription"
@@ -185,7 +176,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.index ["full_name"], name: "index_agents_on_full_name"
     t.index ["language_id"], name: "index_agents_on_language_id"
     t.index ["profile_id"], name: "index_agents_on_profile_id"
-    t.index ["required_role_id"], name: "index_agents_on_required_role_id"
   end
 
   create_table "baskets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -332,7 +322,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "creates", force: :cascade do |t|
-    t.bigint "agent_id", null: false
+    t.uuid "agent_id", null: false
     t.uuid "work_id", null: false
     t.integer "position"
     t.datetime "created_at", null: false
@@ -344,6 +334,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
 
   create_table "doi_records", force: :cascade do |t|
     t.string "body", null: false
+    t.string "display_body", null: false
     t.string "registration_agency"
     t.uuid "manifestation_id"
     t.string "source"
@@ -354,8 +345,8 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "donates", force: :cascade do |t|
-    t.integer "agent_id", null: false
-    t.integer "item_id", null: false
+    t.uuid "agent_id", null: false
+    t.uuid "item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agent_id"], name: "index_donates_on_agent_id"
@@ -477,6 +468,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_frequencies_on_name", unique: true
   end
 
   create_table "identifier_types", force: :cascade do |t|
@@ -515,7 +507,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
 
   create_table "import_request_transitions", force: :cascade do |t|
     t.string "to_state"
-    t.jsonb "metadata", default: "{}"
+    t.jsonb "metadata", default: {}
     t.integer "sort_key"
     t.integer "import_request_id"
     t.datetime "created_at", null: false
@@ -550,11 +542,9 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.string "body", null: false
     t.string "isbn_type"
     t.string "source"
-    t.uuid "manifestation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["body"], name: "index_isbn_records_on_body", unique: true
-    t.index ["manifestation_id"], name: "index_isbn_records_on_manifestation_id"
   end
 
   create_table "issn_record_and_manifestations", force: :cascade do |t|
@@ -599,7 +589,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
 
   create_table "item_transitions", force: :cascade do |t|
     t.string "to_state", null: false
-    t.jsonb "metadata", default: "{}"
+    t.jsonb "metadata", default: {}
     t.integer "sort_key", null: false
     t.uuid "item_id", null: false
     t.boolean "most_recent", null: false
@@ -610,35 +600,33 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "manifestation_id", null: false
     t.string "call_number"
     t.string "item_identifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
-    t.bigint "shelf_id", default: 1
     t.boolean "include_supplements", default: false, null: false
     t.text "note"
     t.string "url"
     t.integer "price"
     t.integer "lock_version", default: 0, null: false
     t.integer "required_role_id", default: 1, null: false
-    t.integer "required_score", default: 0, null: false
     t.datetime "acquired_at"
-    t.integer "bookstore_id"
-    t.integer "budget_type_id"
+    t.uuid "bookstore_id"
+    t.bigint "budget_type_id"
     t.integer "circulation_status_id", default: 5, null: false
     t.integer "checkout_type_id", default: 1, null: false
     t.string "binding_item_identifier"
     t.string "binding_call_number"
     t.datetime "binded_at"
-    t.uuid "manifestation_id"
+    t.uuid "shelf_id", null: false
     t.index ["binding_item_identifier"], name: "index_items_on_binding_item_identifier"
     t.index ["bookstore_id"], name: "index_items_on_bookstore_id"
+    t.index ["budget_type_id"], name: "index_items_on_budget_type_id"
     t.index ["checkout_type_id"], name: "index_items_on_checkout_type_id"
     t.index ["circulation_status_id"], name: "index_items_on_circulation_status_id"
-    t.index ["item_identifier"], name: "index_items_on_item_identifier"
+    t.index ["item_identifier"], name: "index_items_on_item_identifier", unique: true
     t.index ["manifestation_id"], name: "index_items_on_manifestation_id"
-    t.index ["required_role_id"], name: "index_items_on_required_role_id"
     t.index ["shelf_id"], name: "index_items_on_shelf_id"
   end
 
@@ -782,7 +770,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.datetime "date_copyrighted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
     t.string "access_address"
     t.integer "language_id", default: 1, null: false
     t.bigint "carrier_type_id", null: false
@@ -801,7 +788,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.boolean "repository_content", default: false, null: false
     t.integer "lock_version", default: 0, null: false
     t.integer "required_role_id", default: 1, null: false
-    t.integer "required_score", default: 0, null: false
     t.integer "frequency_id", default: 1, null: false
     t.boolean "subscription_master", default: false, null: false
     t.string "attachment_file_name"
@@ -826,8 +812,8 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.integer "year_of_publication"
     t.text "attachment_meta"
     t.integer "month_of_publication"
-    t.boolean "fulltext_content"
-    t.boolean "serial"
+    t.boolean "fulltext_content", default: false, null: false
+    t.boolean "serial", default: false, null: false
     t.text "statement_of_responsibility"
     t.text "publication_place"
     t.text "extent"
@@ -873,7 +859,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "owns", force: :cascade do |t|
-    t.bigint "agent_id", null: false
+    t.uuid "agent_id", null: false
     t.uuid "item_id", null: false
     t.integer "position"
     t.datetime "created_at", null: false
@@ -902,11 +888,9 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "picture_files", force: :cascade do |t|
-    t.integer "picture_attachable_id"
-    t.string "picture_attachable_type"
-    t.string "content_type"
+    t.uuid "picture_attachable_id", null: false
+    t.string "picture_attachable_type", null: false
     t.text "title"
-    t.string "thumbnail"
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -932,7 +916,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "produces", force: :cascade do |t|
-    t.bigint "agent_id", null: false
+    t.uuid "agent_id", null: false
     t.uuid "manifestation_id", null: false
     t.integer "position"
     t.datetime "created_at", null: false
@@ -971,7 +955,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "realizes", force: :cascade do |t|
-    t.bigint "agent_id", null: false
+    t.uuid "agent_id", null: false
     t.uuid "expression_id", null: false
     t.integer "position"
     t.datetime "created_at", null: false
@@ -1003,7 +987,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
 
   create_table "resource_export_file_transitions", force: :cascade do |t|
     t.string "to_state"
-    t.jsonb "metadata", default: "{}"
+    t.jsonb "metadata", default: {}
     t.integer "sort_key"
     t.integer "resource_export_file_id"
     t.datetime "created_at", null: false
@@ -1027,7 +1011,7 @@ ActiveRecord::Schema.define(version: 20180104152615) do
 
   create_table "resource_import_file_transitions", force: :cascade do |t|
     t.string "to_state"
-    t.jsonb "metadata", default: "{}"
+    t.jsonb "metadata", default: {}
     t.integer "sort_key"
     t.integer "resource_import_file_id"
     t.datetime "created_at", null: false
@@ -1038,34 +1022,24 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "resource_import_files", force: :cascade do |t|
-    t.integer "parent_id"
-    t.string "content_type"
-    t.integer "size"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.text "note"
     t.datetime "executed_at"
-    t.string "resource_import_file_name"
-    t.string "resource_import_content_type"
-    t.integer "resource_import_size"
-    t.datetime "resource_import_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "edit_mode"
     t.string "resource_import_fingerprint"
     t.text "error_message"
     t.string "user_encoding"
-    t.integer "default_shelf_id"
-    t.string "resource_import_id"
+    t.uuid "default_shelf_id"
     t.jsonb "attachment_data"
-    t.index ["parent_id"], name: "index_resource_import_files_on_parent_id"
-    t.index ["resource_import_id"], name: "index_resource_import_files_on_resource_import_id"
     t.index ["user_id"], name: "index_resource_import_files_on_user_id"
   end
 
   create_table "resource_import_results", force: :cascade do |t|
     t.integer "resource_import_file_id"
-    t.integer "manifestation_id"
-    t.integer "item_id"
+    t.uuid "manifestation_id"
+    t.uuid "item_id"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -1107,12 +1081,12 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   end
 
   create_table "series_statement_merges", force: :cascade do |t|
-    t.integer "series_statement_id", null: false
-    t.integer "series_statement_merge_list_id", null: false
+    t.bigint "series_statement_id"
+    t.bigint "series_statement_merge_list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["series_statement_id"], name: "index_series_statement_merges_on_series_statement_id"
-    t.index ["series_statement_merge_list_id"], name: "index_series_statement_merges_on_list_id"
+    t.index ["series_statement_merge_list_id"], name: "index_series_statement_merges_on_series_statement_merge_list_id"
   end
 
   create_table "series_statements", force: :cascade do |t|
@@ -1126,14 +1100,14 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.text "title_transcription"
     t.text "title_alternative"
     t.string "series_statement_identifier"
-    t.integer "manifestation_id"
+    t.uuid "manifestation_id"
     t.text "note"
     t.text "title_subseries_transcription"
     t.text "creator_string"
     t.text "volume_number_string"
     t.text "volume_number_transcription_string"
-    t.boolean "series_master"
-    t.integer "root_manifestation_id"
+    t.boolean "series_master", default: false, null: false
+    t.uuid "root_manifestation_id"
     t.index ["manifestation_id"], name: "index_series_statements_on_manifestation_id"
     t.index ["root_manifestation_id"], name: "index_series_statements_on_root_manifestation_id"
     t.index ["series_statement_identifier"], name: "index_series_statements_on_series_statement_identifier"
@@ -1354,15 +1328,27 @@ ActiveRecord::Schema.define(version: 20180104152615) do
     t.bigint "librarian_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "item_id", null: false
     t.index ["basket_id"], name: "index_withdraws_on_basket_id"
+    t.index ["item_id"], name: "index_withdraws_on_item_id"
     t.index ["librarian_id"], name: "index_withdraws_on_librarian_id"
   end
 
   add_foreign_key "accepts", "baskets", on_delete: :nullify
+  add_foreign_key "accepts", "items"
   add_foreign_key "accepts", "users", column: "librarian_id"
+  add_foreign_key "agent_import_files", "users"
+  add_foreign_key "agent_merges", "agent_merge_lists"
+  add_foreign_key "agent_merges", "agents"
+  add_foreign_key "agent_relationships", "agent_relationship_types"
+  add_foreign_key "agent_relationships", "agents", column: "child_id"
+  add_foreign_key "agent_relationships", "agents", column: "parent_id"
   add_foreign_key "baskets", "users"
   add_foreign_key "creates", "agents"
+  add_foreign_key "creates", "manifestations", column: "work_id"
   add_foreign_key "doi_records", "manifestations"
+  add_foreign_key "donates", "agents"
+  add_foreign_key "donates", "items"
   add_foreign_key "exemplifies", "items"
   add_foreign_key "exemplifies", "manifestations"
   add_foreign_key "identifiers", "manifestations"
@@ -1370,7 +1356,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   add_foreign_key "import_requests", "users"
   add_foreign_key "isbn_record_and_manifestations", "isbn_records"
   add_foreign_key "isbn_record_and_manifestations", "manifestations"
-  add_foreign_key "isbn_records", "manifestations"
   add_foreign_key "issn_record_and_manifestations", "issn_records"
   add_foreign_key "issn_record_and_manifestations", "manifestations"
   add_foreign_key "issn_record_and_periodicals", "issn_records"
@@ -1378,7 +1363,10 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   add_foreign_key "issn_records", "manifestations"
   add_foreign_key "item_has_use_restrictions", "items"
   add_foreign_key "item_has_use_restrictions", "use_restrictions"
+  add_foreign_key "items", "bookstores"
+  add_foreign_key "items", "budget_types"
   add_foreign_key "items", "manifestations"
+  add_foreign_key "items", "shelves"
   add_foreign_key "jpno_records", "manifestations"
   add_foreign_key "lending_policies", "items"
   add_foreign_key "lending_policies", "user_groups"
@@ -1390,6 +1378,12 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   add_foreign_key "periodicals", "manifestations"
   add_foreign_key "produces", "agents"
   add_foreign_key "produces", "manifestations"
+  add_foreign_key "realizes", "agents"
+  add_foreign_key "realizes", "manifestations", column: "expression_id"
+  add_foreign_key "resource_import_files", "users"
+  add_foreign_key "series_statement_merges", "series_statement_merge_lists"
+  add_foreign_key "series_statement_merges", "series_statements"
+  add_foreign_key "series_statements", "manifestations"
   add_foreign_key "shelves", "libraries"
   add_foreign_key "subscribes", "subscriptions"
   add_foreign_key "subscriptions", "users"
@@ -1401,5 +1395,6 @@ ActiveRecord::Schema.define(version: 20180104152615) do
   add_foreign_key "user_import_results", "users"
   add_foreign_key "users", "profiles", on_delete: :cascade
   add_foreign_key "withdraws", "baskets", on_delete: :nullify
+  add_foreign_key "withdraws", "items"
   add_foreign_key "withdraws", "users", column: "librarian_id"
 end

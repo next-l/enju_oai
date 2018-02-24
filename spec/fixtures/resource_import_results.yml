@@ -3,15 +3,15 @@
 one:
   id: 1
   resource_import_file_id: 1
-  manifestation_id: 1
-  item_id: 1
+  manifestation_id: 1ff5b88a-1964-4db0-acb3-ae1d9e3a307e
+  item_id: 17eaea41-eacb-4e08-8e0b-70c6e62e3ed3
   body: MyText
 
 two:
   id: 2
   resource_import_file_id: 1
-  manifestation_id: 1
-  item_id: 1
+  manifestation_id: 1ff5b88a-1964-4db0-acb3-ae1d9e3a307e
+  item_id: 17eaea41-eacb-4e08-8e0b-70c6e62e3ed3
   body: MyText
 
 # == Schema Information
@@ -20,10 +20,10 @@ two:
 #
 #  id                      :integer          not null, primary key
 #  resource_import_file_id :integer
-#  manifestation_id        :integer
-#  item_id                 :integer
+#  manifestation_id        :uuid
+#  item_id                 :uuid
 #  body                    :text
-#  created_at              :datetime
-#  updated_at              :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #  error_message           :text
 #

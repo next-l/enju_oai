@@ -2,12 +2,12 @@
 
 one:
   isbn: '978-4774142043'
-  manifestation_id: 1
+  manifestation_id: 1ff5b88a-1964-4db0-acb3-ae1d9e3a307e
   user_id: 1
 
 two:
   isbn: '978-4774141640'
-  manifestation_id: 2
+  manifestation_id: 32662cf8-82b1-4c27-a5c6-2561da75d0a2
   user_id: 1
 
 # == Schema Information
