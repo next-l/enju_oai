@@ -5,7 +5,7 @@ describe "oai/list_identifiers.xml.builder" do
   fixtures :all
   before(:each) do 
     view.stub(:current_user_role_name).and_return('Guest')
-    assign(:oai, { :errors => [] })
+    assign(:oai, { errors: [] })
     manifestations = [ FactoryBot.create(:manifestation) ]
     manifestations.stub(:last_page?){true}
     manifestations.stub(:total_count){manifestations.size}

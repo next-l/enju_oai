@@ -55,7 +55,7 @@ module EnjuOai
       def request_attr(from_time, until_time, prefix = 'oai_dc')
         attribute = {metadataPrefix: prefix, verb: 'ListRecords'}
         attribute.merge(from: from_time.utc.iso8601) if from_time
-        attribute.merge(:until => until_time.utc.iso8601) if until_time
+        attribute.merge(until: until_time.utc.iso8601) if until_time
         attribute
       end
 

@@ -6,7 +6,7 @@ describe "oai/list_records.xml.builder" do
 
   before(:each) do
     view.stub(:current_user_role_name).and_return('Guest')
-    assign(:oai, { :errors => [] })
+    assign(:oai, { errors: [] })
     manifestations = [ FactoryBot.create(:manifestation) ]
     manifestations.stub(:last_page?){true}
     manifestations.stub(:total_count){manifestations.size}
@@ -29,7 +29,7 @@ describe "oai/list_records.xml.builder" do
 
   describe "when metadataPrefix is oai_dc" do
     before(:each) do
-      assign(:oai, { :errors => [], :metadataPrefix => 'oai_dc' } )
+      assign(:oai, { errors: [], metadataPrefix: 'oai_dc' } )
     end
     it "renders the XML template" do
       render
@@ -39,7 +39,7 @@ describe "oai/list_records.xml.builder" do
 
   describe "when metadataPrefix is junii2" do
     before(:each) do
-      assign(:oai, { :errors => [], :metadataPrefix => 'junii2' } )
+      assign(:oai, { errors: [], metadataPrefix: 'junii2' } )
     end
     it "renders the XML template" do
       render
@@ -57,7 +57,7 @@ describe "oai/list_records.xml.builder" do
 
   describe "when metadataPrefix is dcndl" do
     before(:each) do
-      assign(:oai, { :errors => [], :metadataPrefix => 'dcndl' } )
+      assign(:oai, { errors: [], metadataPrefix: 'dcndl' } )
     end
     it "renders the XML template" do
       render

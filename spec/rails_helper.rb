@@ -37,7 +37,7 @@ RSpec.configure do |config|
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
 
-  config.extend ControllerMacros, :type => :controller
+  config.extend ControllerMacros, type: :controller
 
   $original_sunspot_session = Sunspot.session
 
@@ -45,7 +45,7 @@ RSpec.configure do |config|
     Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
   end
 
-  config.before :each, :solr => true do
+  config.before :each, solr: true do
     Sunspot::Rails::Tester.start_original_sunspot_session
     Sunspot.session = $original_sunspot_session
     Sunspot.remove_all!

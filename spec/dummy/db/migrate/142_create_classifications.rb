@@ -2,9 +2,9 @@ class CreateClassifications < ActiveRecord::Migration
   def self.up
     create_table :classifications do |t|
       t.integer :parent_id
-      t.string :category, :null => false
+      t.string :category, null: false
       t.text :note
-      t.integer :classification_type_id, :null => false
+      t.integer :classification_type_id, null: false
 
       t.timestamps
     end
