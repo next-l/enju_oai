@@ -1,4 +1,4 @@
-xml.instruct! :xml, :version=>"1.0"
+xml.instruct! :xml, version: "1.0"
 xml.tag! "OAI-PMH",
   :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
@@ -6,6 +6,6 @@ xml.tag! "OAI-PMH",
   xml.responseDate Time.zone.now.utc.iso8601
   xml.request oai_provider_url(format: :xml)
   @oai[:errors].each do |error|
-    xml.error :code => error
+    xml.error code: error
   end
 end
