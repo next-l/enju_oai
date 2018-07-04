@@ -1,4 +1,4 @@
-class AddTranslationTableToLibraryGroup < ActiveRecord::Migration
+class AddTranslationTableToLibraryGroup < ActiveRecord::Migration[4.2]
   def up
     LibraryGroup.create_translation_table!({
       login_banner: :text
