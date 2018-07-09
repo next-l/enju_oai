@@ -8,7 +8,6 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
-require 'sunspot-rails-tester'
 require 'vcr'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -38,18 +37,6 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
 
   config.extend ControllerMacros, type: :controller
-
-  $original_sunspot_session = Sunspot.session
-
-  config.before do
-    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  end
-
-  config.before :each, solr: true do
-    Sunspot::Rails::Tester.start_original_sunspot_session
-    Sunspot.session = $original_sunspot_session
-    Sunspot.remove_all!
-  end
 
   config.infer_spec_type_from_file_location!
 end

@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "factory_bot_rails"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "sunspot_solr", "~> 2.3"
-  s.add_development_dependency "sunspot-rails-tester"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "vcr", "~> 4.0"
   s.add_development_dependency "webmock"
