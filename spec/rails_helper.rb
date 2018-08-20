@@ -7,7 +7,7 @@ Coveralls.wear!
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
-require 'factory_girl'
+require 'factory_bot'
 require 'vcr'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
