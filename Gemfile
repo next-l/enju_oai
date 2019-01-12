@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Declare your gem's dependencies in enju_oai.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -20,6 +21,8 @@ gem "enju_manifestation_viewer", github: "next-l/enju_manifestation_viewer"
 gem "codeclimate-test-reporter", group: :test, require: false
 gem "jquery-rails"
 gem "rails-controller-testing"
+gem "mobility"
+gem 'rspec_junit_formatter'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
