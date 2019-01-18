@@ -44,11 +44,12 @@ request_type_00004:
 #
 # Table name: request_types
 #
-#  id           :integer          not null, primary key
-#  name         :string           not null
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
 #  display_name :text
 #  note         :text
-#  position     :integer          default(1), not null
+#  position     :integer
 #  created_at   :datetime
 #  updated_at   :datetime
 #
+
