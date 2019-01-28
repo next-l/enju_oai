@@ -28,4 +28,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sunspot_solr", "~> 2.3"
   s.add_development_dependency "redis-rails"
   s.add_development_dependency "resque"
+  s.add_development_dependency "vcr"
+  s.add_development_dependency "webmock"
 end

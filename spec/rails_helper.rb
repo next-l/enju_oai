@@ -11,6 +11,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'factory_bot'
 require 'pundit/rspec'
+require 'vcr'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

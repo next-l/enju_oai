@@ -4,7 +4,7 @@ module EnjuOai
 
     module ClassMethods
       def find_by_oai_identifier(identifier)
-        self.find(identifier.to_s.split(":").last.split("-").last)
+        self.find(identifier.to_s.split(":").last.split("-", 2).last)
       end
     end
   
