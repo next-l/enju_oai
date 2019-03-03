@@ -20,9 +20,9 @@ gem "enju_nii", github: "next-l/enju_nii"
 gem "enju_manifestation_viewer", github: "next-l/enju_manifestation_viewer"
 gem "codeclimate-test-reporter", group: :test, require: false
 gem "jquery-rails"
-gem "rails-controller-testing"
-gem "mobility"
-gem 'rspec_junit_formatter'
+gem "json_translate"
+gem "rails-controller-testing", group: :test
+gem 'rspec_junit_formatter', group: :test
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]

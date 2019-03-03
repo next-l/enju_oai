@@ -1,8 +1,8 @@
-class CreateIdentifierTypes < ActiveRecord::Migration[4.2]
+class CreateIdentifierTypes < ActiveRecord::Migration[5.2]
   def change
     create_table :identifier_types do |t|
-      t.string :name
-      t.text :display_name
+      t.string :name, index: {unique: true}, null: false
+      t.jsonb :display_name_translations, default: {}, null: false
       t.text :note
       t.integer :position
 

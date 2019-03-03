@@ -6,7 +6,6 @@ FactoryBot.define do
     password_confirmation { 'adminpassword' }
     association :profile
     after(:create) do |user|
-      user.profile.update(required_role: Role.find_by(name: 'Administrator'))
       user_has_role = UserHasRole.new
       user_has_role.assign_attributes({user_id: user.id, role_id: Role.find_by(name: 'Administrator').id})
       user_has_role.save
@@ -21,7 +20,6 @@ FactoryBot.define do
     password_confirmation { 'librarianpassword' }
     association :profile
     after(:create) do |user|
-      user.profile.update(required_role: Role.find_by(name: 'Librarian'))
       user_has_role = UserHasRole.new
       user_has_role.assign_attributes({user_id: user.id, role_id: Role.find_by(name: 'Librarian').id})
       user_has_role.save
