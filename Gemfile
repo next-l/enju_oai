@@ -18,7 +18,6 @@ gem "enju_subject", github: "next-l/enju_subject"
 gem "enju_ndl", github: "next-l/enju_ndl"
 gem "enju_nii", github: "next-l/enju_nii"
 gem "enju_manifestation_viewer", github: "next-l/enju_manifestation_viewer"
-gem "codeclimate-test-reporter", group: :test, require: false
 gem "jquery-rails"
 gem "json_translate"
 gem "rails-controller-testing", group: :test
