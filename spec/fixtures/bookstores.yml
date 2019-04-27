@@ -84,16 +84,15 @@ bookstore_00007:
 #
 # Table name: bookstores
 #
-#  id               :integer         not null, primary key
-#  name             :text            not null
-#  zip_code         :string(255)
+#  id               :uuid             not null, primary key
+#  name             :text             not null
+#  zip_code         :string
 #  address          :text
 #  note             :text
-#  telephone_number :string(255)
-#  fax_number       :string(255)
-#  url              :string(255)
-#  position         :integer
-#  created_at       :datetime
-#  updated_at       :datetime
+#  telephone_number :string
+#  fax_number       :string
+#  url              :string
+#  position         :integer          default(1), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
-
