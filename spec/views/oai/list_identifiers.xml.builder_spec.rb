@@ -10,6 +10,7 @@ describe "oai/list_identifiers.xml.builder" do
     manifestations.stub(:total_count){manifestations.size}
     assign(:manifestations, manifestations)
   end
+
   it "renders the XML template" do
     render
     expect(rendered).to match /<ListIdentifiers>/
