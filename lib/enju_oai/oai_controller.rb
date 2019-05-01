@@ -14,6 +14,7 @@ module EnjuOai
         when 'ListSets'
         when 'ListMetadataFormats'
         when 'ListIdentifiers'
+          oai[:metadataPrefix] = params[:metadataPrefix]
           unless valid_metadata_format?(params[:metadataPrefix])
             oai[:errors] << "badArgument"
           end
