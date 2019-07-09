@@ -40,10 +40,12 @@ describe "oai/list_records.xml.builder" do
     before(:each) do
       assign(:oai, { :errors => [], :metadataPrefix => 'junii2' } )
     end
+
     it "renders the XML template" do
       render
       expect(rendered).to match /<junii2/
     end
+
     it "renders NIItype" do
       manifestations = [FactoryBot.create(:manifestation, nii_type_id: 1)]
       manifestations.stub(:last_page?){true}
