@@ -58,17 +58,6 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.extend ControllerMacros, type: :controller
-
-  $original_sunspot_session = Sunspot.session
-
-  config.before do
-    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  end
-
-  config.before :each, solr: true do
-    Sunspot.session = $original_sunspot_session
-    Sunspot.remove_all!
-  end
 end
 
 FactoryBot.definition_file_paths << "#{::Rails.root}/../../spec/factories"
