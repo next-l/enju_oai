@@ -1,4 +1,4 @@
-class RemoveNcidFromManifestations < ActiveRecord::Migration[5.2]
+class RemoveNcidFromManifestations < ActiveRecord::Migration[4.2]
   def change
     remove_column :manifestations, :ncid
   end

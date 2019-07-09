@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   #s.add_development_dependency "enju_leaf", "~> 1.2.0"
   #s.add_development_dependency "enju_nii", "~> 0.2.0"
   s.add_development_dependency "simplecov"
-  s.add_development_dependency "sunspot_solr", "~> 2.3"
+  s.add_development_dependency "sunspot_solr", "~> 2.4"
   s.add_development_dependency "resque"
   s.add_development_dependency "vcr"
   s.add_development_dependency "webmock"

@@ -20,6 +20,7 @@ gem "enju_nii", github: "next-l/enju_nii"
 gem "enju_manifestation_viewer", github: "next-l/enju_manifestation_viewer"
 gem "jquery-rails"
 gem "json_translate"
+gem "paper_trail"
 group :test do
   gem "rails-controller-testing"
   gem 'rspec_junit_formatter'
