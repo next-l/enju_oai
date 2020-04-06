@@ -1,9 +1,9 @@
-class CreateAgentRelationshipTypes < ActiveRecord::Migration[4.2]
+class CreateAgentRelationshipTypes < ActiveRecord::Migration[5.2]
   def change
     create_table :agent_relationship_types do |t|
       t.string :name, null: false
       t.text :display_name
-      t.text :note
+      t.text :note, comment: '備考'
       t.integer :position
 
       t.timestamps

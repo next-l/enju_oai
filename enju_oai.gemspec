@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "pg"
-  s.add_development_dependency "rspec-rails", "~> 3.8"
+  s.add_development_dependency "rspec-rails", "~> 4.0"
   s.add_development_dependency "factory_bot_rails"
   #s.add_development_dependency "enju_leaf", "~> 1.2.0"
   #s.add_development_dependency "enju_nii", "~> 0.2.0"
@@ -29,6 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "resque"
   s.add_development_dependency "vcr"
   s.add_development_dependency "webmock"
-  s.add_development_dependency "coveralls"
+  s.add_development_dependency "coveralls", '~> 0.8.23'
   s.add_development_dependency "annotate"
 end

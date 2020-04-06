@@ -1,4 +1,4 @@
-class CreateLanguages < ActiveRecord::Migration[4.2]
+class CreateLanguages < ActiveRecord::Migration[5.2]
 
   # ISO 639 is the set of international standards that lists short codes for language names.
   # Note this doesn't include macrolanguages (dialects)
@@ -12,7 +12,7 @@ class CreateLanguages < ActiveRecord::Migration[4.2]
       t.string :iso_639_1,        size: 3
       t.string :iso_639_2,        size: 3
       t.string :iso_639_3,        size: 3
-      t.text :note
+      t.text :note, comment: '備考'
       t.integer :position
     end
     add_index :languages, :name, unique: true
