@@ -1,8 +1,8 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.4.6
-  - 2.5.5
+  - 2.5.8
+  - 2.6.6
 before_script:
   - psql -c 'create database enju_oai_dummy_test;' -U postgres
   - psql enju_oai_dummy_test -c 'CREATE EXTENSION pgcrypto'
