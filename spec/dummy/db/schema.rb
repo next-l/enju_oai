@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_11_26_135238) do
+ActiveRecord::Schema.define(version: 2020_04_25_074822) do
 
   create_table "accepts", force: :cascade do |t|
     t.integer "basket_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.datetime "updated_at"
     t.index ["basket_id"], name: "index_accepts_on_basket_id"
     t.index ["item_id"], name: "index_accepts_on_item_id"
+    t.index ["librarian_id"], name: "index_accepts_on_librarian_id"
   end
 
   create_table "agent_import_file_transitions", force: :cascade do |t|
@@ -29,7 +30,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.integer "agent_import_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "most_recent"
+    t.boolean "most_recent", null: false
+    t.index ["agent_import_file_id", "most_recent"], name: "index_agent_import_file_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["agent_import_file_id"], name: "index_agent_import_file_transitions_on_agent_import_file_id"
     t.index ["sort_key", "agent_import_file_id"], name: "index_agent_import_file_transitions_on_sort_key_and_file_id", unique: true
   end
@@ -153,10 +155,12 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.string "birth_date"
     t.string "death_date"
     t.string "agent_identifier"
+    t.integer "profile_id"
     t.index ["agent_identifier"], name: "index_agents_on_agent_identifier"
     t.index ["country_id"], name: "index_agents_on_country_id"
     t.index ["full_name"], name: "index_agents_on_full_name"
     t.index ["language_id"], name: "index_agents_on_language_id"
+    t.index ["profile_id"], name: "index_agents_on_profile_id"
     t.index ["required_role_id"], name: "index_agents_on_required_role_id"
   end
 
@@ -377,6 +381,15 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.index ["work_id"], name: "index_creates_on_work_id"
   end
 
+  create_table "custom_properties", force: :cascade do |t|
+    t.integer "resource_id", null: false
+    t.string "resource_type", null: false
+    t.text "label", null: false
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "donates", force: :cascade do |t|
     t.integer "agent_id", null: false
     t.integer "item_id", null: false
@@ -531,7 +544,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.integer "import_request_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "most_recent"
+    t.boolean "most_recent", null: false
+    t.index ["import_request_id", "most_recent"], name: "index_import_request_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["import_request_id"], name: "index_import_request_transitions_on_import_request_id"
     t.index ["sort_key", "import_request_id"], name: "index_import_request_transitions_on_sort_key_and_request_id", unique: true
   end
@@ -545,6 +559,27 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.index ["isbn"], name: "index_import_requests_on_isbn"
     t.index ["manifestation_id"], name: "index_import_requests_on_manifestation_id"
     t.index ["user_id"], name: "index_import_requests_on_user_id"
+  end
+
+  create_table "item_custom_properties", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "display_name", null: false
+    t.text "note"
+    t.integer "position", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_item_custom_properties_on_name", unique: true
+  end
+
+  create_table "item_custom_values", force: :cascade do |t|
+    t.integer "item_custom_property_id", null: false
+    t.integer "item_id", null: false
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_custom_property_id", "item_id"], name: "index_item_custom_values_on_custom_item_property_and_item_id", unique: true
+    t.index ["item_custom_property_id"], name: "index_item_custom_values_on_custom_property_id"
+    t.index ["item_id"], name: "index_item_custom_values_on_item_id"
   end
 
   create_table "item_has_use_restrictions", force: :cascade do |t|
@@ -578,7 +613,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.string "binding_item_identifier"
     t.string "binding_call_number"
     t.datetime "binded_at"
-    t.integer "manifestation_id"
+    t.integer "manifestation_id", null: false
+    t.text "memo"
     t.index ["binding_item_identifier"], name: "index_items_on_binding_item_identifier"
     t.index ["bookstore_id"], name: "index_items_on_bookstore_id"
     t.index ["checkout_type_id"], name: "index_items_on_checkout_type_id"
@@ -632,7 +668,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.text "note"
     t.integer "call_number_rows", default: 1, null: false
     t.string "call_number_delimiter", default: "|", null: false
-    t.integer "library_group_id", default: 1, null: false
+    t.integer "library_group_id", null: false
     t.integer "users_count", default: 0, null: false
     t.integer "position"
     t.integer "country_id"
@@ -644,7 +680,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.float "latitude"
     t.float "longitude"
     t.index ["library_group_id"], name: "index_libraries_on_library_group_id"
-    t.index ["name"], name: "index_libraries_on_name", unique: true
+    t.index ["name"], name: "index_libraries_on_name"
   end
 
   create_table "library_group_translations", force: :cascade do |t|
@@ -677,10 +713,12 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.boolean "family_name_first", default: true
     t.integer "pub_year_facet_range_interval", default: 10
     t.integer "user_id"
+    t.boolean "csv_charset_conversion", default: false, null: false
     t.string "header_logo_file_name"
     t.string "header_logo_content_type"
     t.integer "header_logo_file_size"
     t.datetime "header_logo_updated_at"
+    t.text "header_logo_meta"
     t.index ["short_name"], name: "index_library_groups_on_short_name"
     t.index ["user_id"], name: "index_library_groups_on_user_id"
   end
@@ -715,6 +753,27 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.datetime "completed_at"
     t.integer "user_id"
     t.index ["user_id"], name: "index_manifestation_checkout_stats_on_user_id"
+  end
+
+  create_table "manifestation_custom_properties", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "display_name", null: false
+    t.text "note"
+    t.integer "position", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_manifestation_custom_properties_on_name", unique: true
+  end
+
+  create_table "manifestation_custom_values", force: :cascade do |t|
+    t.integer "manifestation_custom_property_id", null: false
+    t.integer "manifestation_id", null: false
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["manifestation_custom_property_id", "manifestation_id"], name: "index_manifestation_custom_values_on_property_manifestation", unique: true
+    t.index ["manifestation_custom_property_id"], name: "index_manifestation_custom_values_on_custom_property_id"
+    t.index ["manifestation_id"], name: "index_manifestation_custom_values_on_manifestation_id"
   end
 
   create_table "manifestation_relationship_types", force: :cascade do |t|
@@ -804,7 +863,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.datetime "valid_until"
     t.datetime "date_submitted"
     t.datetime "date_accepted"
-    t.datetime "date_caputured"
+    t.datetime "date_captured"
     t.string "pub_date"
     t.string "edition_string"
     t.integer "volume_number"
@@ -820,6 +879,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.text "publication_place"
     t.text "extent"
     t.text "dimensions"
+    t.text "memo"
     t.index ["access_address"], name: "index_manifestations_on_access_address"
     t.index ["date_of_publication"], name: "index_manifestations_on_date_of_publication"
     t.index ["manifestation_identifier"], name: "index_manifestations_on_manifestation_identifier"
@@ -934,9 +994,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
   create_table "picture_files", force: :cascade do |t|
     t.integer "picture_attachable_id"
     t.string "picture_attachable_type"
-    t.string "content_type"
     t.text "title"
-    t.string "thumbnail"
     t.integer "position"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -989,6 +1047,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.text "full_name_transcription"
     t.datetime "date_of_birth"
     t.index ["checkout_icalendar_token"], name: "index_profiles_on_checkout_icalendar_token", unique: true
+    t.index ["library_id"], name: "index_profiles_on_library_id"
+    t.index ["user_group_id"], name: "index_profiles_on_user_group_id"
     t.index ["user_id"], name: "index_profiles_on_user_id"
     t.index ["user_number"], name: "index_profiles_on_user_number", unique: true
   end
@@ -1091,7 +1151,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.integer "resource_export_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "most_recent"
+    t.boolean "most_recent", null: false
+    t.index ["resource_export_file_id", "most_recent"], name: "index_resource_export_file_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["resource_export_file_id"], name: "index_resource_export_file_transitions_on_file_id"
     t.index ["sort_key", "resource_export_file_id"], name: "index_resource_export_file_transitions_on_sort_key_and_file_id", unique: true
   end
@@ -1114,7 +1175,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.integer "resource_import_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "most_recent"
+    t.boolean "most_recent", null: false
+    t.index ["resource_import_file_id", "most_recent"], name: "index_resource_import_file_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["resource_import_file_id"], name: "index_resource_import_file_transitions_on_file_id"
     t.index ["sort_key", "resource_import_file_id"], name: "index_resource_import_file_transitions_on_sort_key_and_file_id", unique: true
   end
@@ -1221,7 +1283,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.string "name", null: false
     t.text "display_name"
     t.text "note"
-    t.integer "library_id", default: 1, null: false
+    t.integer "library_id", null: false
     t.integer "items_count", default: 0, null: false
     t.integer "position"
     t.datetime "created_at"
@@ -1336,9 +1398,11 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.integer "user_export_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "most_recent"
+    t.boolean "most_recent", null: false
     t.index ["sort_key", "user_export_file_id"], name: "index_user_export_file_transitions_on_sort_key_and_file_id", unique: true
+    t.index ["user_export_file_id", "most_recent"], name: "index_user_export_file_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["user_export_file_id"], name: "index_user_export_file_transitions_on_file_id"
+    t.index ["user_export_file_id"], name: "index_user_export_file_transitions_on_user_export_file_id"
   end
 
   create_table "user_export_files", force: :cascade do |t|
@@ -1350,6 +1414,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.datetime "executed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["user_id"], name: "index_user_export_files_on_user_id"
   end
 
   create_table "user_group_has_checkout_types", force: :cascade do |t|
@@ -1387,8 +1452,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
   end
 
   create_table "user_has_roles", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
+    t.integer "user_id", null: false
+    t.integer "role_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["role_id"], name: "index_user_has_roles_on_role_id"
@@ -1402,8 +1467,9 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.integer "user_import_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "most_recent"
+    t.boolean "most_recent", null: false
     t.index ["sort_key", "user_import_file_id"], name: "index_user_import_file_transitions_on_sort_key_and_file_id", unique: true
+    t.index ["user_import_file_id", "most_recent"], name: "index_user_import_file_transitions_parent_most_recent", unique: true, where: "most_recent"
     t.index ["user_import_file_id"], name: "index_user_import_file_transitions_on_user_import_file_id"
   end
 
@@ -1423,6 +1489,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.string "user_encoding"
     t.integer "default_library_id"
     t.integer "default_user_group_id"
+    t.index ["user_id"], name: "index_user_import_files_on_user_id"
   end
 
   create_table "user_import_results", force: :cascade do |t|
@@ -1432,6 +1499,8 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "error_message"
+    t.index ["user_id"], name: "index_user_import_results_on_user_id"
+    t.index ["user_import_file_id"], name: "index_user_import_results_on_user_import_file_id"
   end
 
   create_table "user_reserve_stat_transitions", force: :cascade do |t|
@@ -1504,6 +1573,7 @@ ActiveRecord::Schema.define(version: 2017_11_26_135238) do
     t.datetime "updated_at", null: false
     t.index ["basket_id"], name: "index_withdraws_on_basket_id"
     t.index ["item_id"], name: "index_withdraws_on_item_id"
+    t.index ["librarian_id"], name: "index_withdraws_on_librarian_id"
   end
 
 end
