@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "simplecov"
   s.add_development_dependency "sunspot_solr", "~> 2.5"
   s.add_development_dependency "coveralls", "~> 0.8.23"
-  s.add_development_dependency "vcr", "~> 5.1"
+  s.add_development_dependency "vcr", "~> 6.0"
   s.add_development_dependency "webmock"
   s.add_development_dependency "rails", "~> 5.2"
   s.add_development_dependency "sprockets", "~> 3.7"
