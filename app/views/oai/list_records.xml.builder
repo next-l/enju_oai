@@ -26,10 +26,10 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
         end
       end
     end
-    if @manifestations.last_page?
-      xml.resumptionToken nil, completeListSize: @manifestations.total_count
-    else
+    if @manifestations.next_page_cursor
       xml.resumptionToken CGI.escape(@manifestations.next_page_cursor), completeListSize: @manifestations.total_count
+    else
+      xml.resumptionToken nil, completeListSize: @manifestations.total_count
     end
   end
 end
