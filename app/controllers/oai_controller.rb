@@ -22,6 +22,7 @@ class OaiController < ApplicationController
         order_by :updated_at, :desc
         paginate cursor: token, per_page: oai_per_page
         with(:updated_at).between(from_time..until_time)
+        with(:required_role_id).equal_to Role.default_role.id
       end
       @manifestations = search.execute!.results
 
