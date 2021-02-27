@@ -85,7 +85,6 @@ RSpec.describe OaiController, type: :controller do
 
       it "should return only public records for oai_dc metadata" do
         get :provider, params: { format: 'xml', verb: 'ListRecords', metadataPrefix: 'oai_dc' }
-        p assigns(:manifestations).map(&:id)
         expect(assigns(:manifestations).map(&:id).include?(11)).to be_falsy
         expect(assigns(:manifestations).map(&:id).include?(24)).to be_falsy
       end
