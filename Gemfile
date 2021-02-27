@@ -21,8 +21,8 @@ gem "enju_manifestation_viewer", github: "next-l/enju_manifestation_viewer"
 gem "jquery-rails"
 gem "webpacker"
 group :test do
-  gem "rails-controller-testing"
-  gem 'rspec_junit_formatter'
+  gem 'rspec_junit_formatter', require: false
+  gem 'rails-controller-testing'
 end
 
 # To use a debugger
