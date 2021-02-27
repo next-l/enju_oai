@@ -71,15 +71,27 @@ RSpec.describe OaiController, type: :controller do
         response.should render_template('oai/get_record')
       end
 
-      it "should return only public records for oai_dc metadata" do
+      it "should return only public identifiers for oai_dc metadata" do
         get :provider, params: { format: 'xml', verb: 'ListIdentifiers', metadataPrefix: 'oai_dc' }
+        expect(assigns(:manifestations).map(&:id).include?(11)).to be_falsy
+        expect(assigns(:manifestations).map(&:id).include?(24)).to be_falsy
+      end
+
+      it "should return only public identifiers for junii2 metadata" do
+        get :provider, params: { format: 'xml', verb: 'ListIdentifiers', metadataPrefix: 'junii2' }
+        expect(assigns(:manifestations).map(&:id).include?(11)).to be_falsy
+        expect(assigns(:manifestations).map(&:id).include?(24)).to be_falsy
+      end
+
+      it "should return only public records for oai_dc metadata" do
+        get :provider, params: { format: 'xml', verb: 'ListRecords', metadataPrefix: 'oai_dc' }
         p assigns(:manifestations).map(&:id)
         expect(assigns(:manifestations).map(&:id).include?(11)).to be_falsy
         expect(assigns(:manifestations).map(&:id).include?(24)).to be_falsy
       end
 
       it "should return only public records for junii2 metadata" do
-        get :provider, params: { format: 'xml', verb: 'ListIdentifiers', metadataPrefix: 'junii2' }
+        get :provider, params: { format: 'xml', verb: 'ListRecords', metadataPrefix: 'junii2' }
         expect(assigns(:manifestations).map(&:id).include?(11)).to be_falsy
         expect(assigns(:manifestations).map(&:id).include?(24)).to be_falsy
       end
