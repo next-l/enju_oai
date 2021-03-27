@@ -26,6 +26,14 @@ class OaiController < ApplicationController
       end
       @manifestations = search.execute!.results
 
+      if params[:verb] == 'ListSets'
+        @series_statements = SeriesStatement.search do
+          order_by :updated_at, :desc
+          paginate cursor: token, per_page: oai_per_page
+          with(:updated_at).between(from_time..until_time)
+        end
+      end
+
       if @manifestations.empty?
         @oai[:errors] << 'noRecordsMatch'
       end
@@ -40,7 +48,6 @@ class OaiController < ApplicationController
           when 'ListMetadataFormats'
             render template: 'oai/list_metadata_formats', content_type: 'text/xml'
           when 'ListSets'
-            @series_statements = SeriesStatement.select([:id, :original_title])
             render template: 'oai/list_sets', content_type: 'text/xml'
           when 'ListIdentifiers'
             render template: 'oai/list_identifiers', content_type: 'text/xml'
