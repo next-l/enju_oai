@@ -11,5 +11,11 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
         xml.setName series_statement.original_title
       end
     end
+
+    if @series_statements.next_page_cursor
+      xml.resumptionToken CGI.escape(@series_statements.next_page_cursor), completeListSize: @series_statements.total_count
+    else
+      xml.resumptionToken nil, completeListSize: @series_statements.total_count
+    end
   end
 end
