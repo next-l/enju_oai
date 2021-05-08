@@ -24,9 +24,7 @@ module EnjuOai
             oai[:errors] << "badArgument"
           end
         when 'GetRecord'
-          unless valid_metadata_format?(params[:metadataPrefix])
-            oai[:errors] << "badArgument"
-          else
+          if valid_metadata_format?(params[:metadataPrefix])
             if params[:identifier].blank?
               oai[:errors] << "badArgument"
             end
@@ -34,6 +32,8 @@ module EnjuOai
             unless valid_metadata_format?(params[:metadataPrefix])
               oai[:errors] << "badArgument"
             end
+          else
+            oai[:errors] << "badArgument"
           end
         else
           oai[:errors] << "badVerb"

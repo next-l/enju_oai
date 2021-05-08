@@ -4,7 +4,7 @@ xml_builder.junii2 :version => '3.1',
   "xmlns" => "http://irdb.nii.ac.jp/oai",
   "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml_builder.title manifestation.original_title
-  unless manifestation.title_alternative.blank?
+  if manifestation.title_alternative.present?
     xml_builder.alternative manifestation.title_alternative
   end
   manifestation.creators.readable_by(current_user).each do |patron|
@@ -67,7 +67,7 @@ xml_builder.junii2 :version => '3.1',
   else
     xml_builder.NIItype 'Others'
   end
-  unless manifestation.attachment.blank?
+  if manifestation.attachment.present?
     xml_builder.format manifestation.attachment_content_type
   end
   if manifestation.manifestation_identifier?
@@ -79,7 +79,7 @@ xml_builder.junii2 :version => '3.1',
     end
   end
   xml_builder.URI manifestation_url( manifestation )
-  unless manifestation.attachment.blank?
+  if manifestation.attachment.present?
     xml_builder.fulltextURL manifestation_url(id: manifestation.id, format: :download)
   end
   %w[ isbn issn NCID ].each do |identifier|
