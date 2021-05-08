@@ -85,7 +85,7 @@ xml_builder.tag! "rdf:RDF",
         end
       end
     end
-    xml_builder.tag! "dc:creator", manifestation.statement_of_responsibility unless manifestation.statement_of_responsibility.blank?
+    xml_builder.tag! "dc:creator", manifestation.statement_of_responsibility if manifestation.statement_of_responsibility.present?
     manifestation.series_statements.each do |series_statement|
       xml_builder.tag! "dcndl:seriesCreator", series_statement.creator_string
     end

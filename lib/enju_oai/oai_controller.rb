@@ -24,9 +24,7 @@ module EnjuOai
             oai[:errors] << "badArgument"
           end
         when 'GetRecord'
-          unless valid_metadata_format?(params[:metadataPrefix])
-            oai[:errors] << "badArgument"
-          else
+          if valid_metadata_format?(params[:metadataPrefix])
             if params[:identifier].blank?
               oai[:errors] << "badArgument"
             end
@@ -34,6 +32,8 @@ module EnjuOai
             unless valid_metadata_format?(params[:metadataPrefix])
               oai[:errors] << "badArgument"
             end
+          else
+            oai[:errors] << "badArgument"
           end
         else
           oai[:errors] << "badVerb"
@@ -56,7 +56,7 @@ module EnjuOai
       def request_attr(from_time, until_time, prefix = 'oai_dc')
         attribute = {metadataPrefix: prefix, verb: 'ListRecords'}
         attribute.merge(from: from_time.utc.iso8601) if from_time
-        attribute.merge(:until => until_time.utc.iso8601) if until_time
+        attribute.merge(until: until_time.utc.iso8601) if until_time
         attribute
       end
 

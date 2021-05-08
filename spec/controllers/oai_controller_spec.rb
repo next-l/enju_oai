@@ -9,6 +9,9 @@ RSpec.describe OaiController, type: :controller do
 
   describe 'GET index', solr: true do
     before do
+      50.times do
+        FactoryBot.create(:manifestation)
+      end
       Manifestation.reindex
     end
 
@@ -51,14 +54,16 @@ RSpec.describe OaiController, type: :controller do
       end
 
       it 'should not assign all manifestations as @manifestations in oai format with GetRecord with identifier without metadataPrefix' do
-        get :provider, params: { format: 'xml', verb: 'GetRecord', identifier: "oai:localhost:manifestations-#{manifestations(:manifestation_00001).id}" }
+        manifestation = Manifestation.first
+        get :provider, params: { format: 'xml', verb: 'GetRecord', identifier: "oai:localhost:manifestations-#{manifestation.id}" }
         assigns(:manifestations).should be_nil
         assigns(:manifestation).should_not be_nil
         response.should render_template('oai/provider')
       end
 
       it 'assigns all manifestations as @manifestations in oai format with GetRecord with identifier for junii2 metadata' do
-        get :provider, params: { format: 'xml', verb: 'GetRecord', identifier: "oai:localhost:manifestations-#{manifestations(:manifestation_00001).id}", metadataPrefix: 'junii2' }
+        manifestation = Manifestation.first
+        get :provider, params: { format: 'xml', verb: 'GetRecord', identifier: "oai:localhost:manifestations-#{manifestation.id}", metadataPrefix: 'junii2' }
         assigns(:manifestations).should be_nil
         assigns(:manifestation).should_not be_nil
         response.should render_template('oai/get_record')
