@@ -61,14 +61,14 @@ xml_builder.junii2 :version => '3.1',
     xml_builder.contributor patron.full_name
   end
   xml_builder.date manifestation.created_at.to_date.iso8601
-  xml_builder.type manifestation.manifestation_content_type.name
+  xml_builder.type manifestation.manifestation_content_type&.name
   if manifestation.try(:nii_type)
     xml_builder.NIItype manifestation.nii_type.name
   else
     xml_builder.NIItype 'Others'
   end
-  if manifestation.attachment.present?
-    xml_builder.format manifestation.attachment_content_type
+  if manifestation.attachment.attached?
+    xml_builder.format manifestation.attachment.content_type
   end
   if manifestation.manifestation_identifier?
     xml_builder.identifier manifestation.manifestation_identifier

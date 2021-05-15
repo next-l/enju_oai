@@ -150,7 +150,7 @@ xml_builder.tag! "rdf:RDF",
     when "online_resource"
       material_type = :electronic_resource
     end
-    case manifestation.manifestation_content_type.name
+    case manifestation.manifestation_content_type&.name
     when "text"
       material_type = :book
     when "tactile_text"
